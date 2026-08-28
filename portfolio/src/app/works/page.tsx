@@ -21,7 +21,7 @@ export default function Works() {
               summary={p.summary}
               video={p.video}
               link={p.link}
-              demo={p.demo}
+              aspectRatio={p.aspectRatio}
               tags={p.tags}
             />
           ))}
@@ -38,7 +38,7 @@ export default function Works() {
               summary={p.summary}
               video={p.video}
               link={p.link}
-              demo={p.demo}
+              aspectRatio={p.aspectRatio}
               tags={p.tags}
             />
           ))}

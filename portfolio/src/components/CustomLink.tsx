@@ -39,39 +39,38 @@ export const CustomLink = ({
 export const CustomLinkBracket = ({
   name,
   url,
-  className
+  className = "",
 }: {
-  name: string,
-  url: string,
-  className?: string
+  name: string;
+  url: string;
+  className?: string;
 }) => {
-
-  const [hovered, setHovered] = useState(false)
+  const [hovered, setHovered] = useState(false);
 
   return (
     <Link
       href={url}
+      target={url.startsWith("http") ? "_blank" : undefined}
+      rel={url.startsWith("http") ? "noopener noreferrer" : undefined}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className={`group w-40 mix-blend-difference splineLight tracking-tight flex items-center justify-center uppercase text-md ${className}`}
+      className={`group w-fit inline-flex splineLight tracking-tight items-center justify-center uppercase text-sm ${className}`}
     >
       <span className="flex items-center">
-
         {/* Left Bracket */}
-        <span className="customTransition mix-blend-difference group-hover:-translate-x-0.5">
+        <span className="customTransition group-hover:-translate-x-0.5">
           [
         </span>
 
         {/* Animated Text */}
-        <span className="inline-block splineLight mix-blend-difference px-2 customTransition group-hover:px-5">
+        <span className="inline-block splineLight px-2 customTransition group-hover:px-4">
           <TextRoll text={name} trigger={hovered} />
         </span>
 
         {/* Right Bracket */}
-        <span className="customTransition mix-blend-difference group-hover:translate-x-0.5">
+        <span className="customTransition group-hover:translate-x-0.5">
           ]
         </span>
-
       </span>
     </Link>
   );
@@ -123,6 +122,8 @@ export const CustomLinkArrow = ({
   return (
     <Link
       href={url}
+      target={url.startsWith("http") ? "_blank" : undefined}
+      rel={url.startsWith("http") ? "noopener noreferrer" : undefined}
       style={{
         ["--from-rotate" as string]: `${fromRotation}deg`,
         ["--to-rotate" as string]: `${toRotation}deg`,

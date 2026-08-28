@@ -9,6 +9,7 @@ export interface Project {
   repo: string;
   demo?: string;
   image: string;
+  aspectRatio?: "landscape" | "portrait" | "square";
   video?: string;
 }
 
@@ -24,6 +25,7 @@ export const projects: Project[] = [
     link: "https://github.com/akhil151/agent1.git",
     repo: "https://github.com/akhil151/agent1.git",
     image: "/assests/projects/aegis.jpeg",
+    aspectRatio: "landscape",
   },
   {
     id: "elephant-detection",
@@ -36,6 +38,7 @@ export const projects: Project[] = [
     link: "https://github.com/deepakramaswamy2006/Elephant_Detection.git",
     repo: "https://github.com/deepakramaswamy2006/Elephant_Detection.git",
     image: "/assests/projects/elephant.jpeg",
+    aspectRatio: "portrait",
   },
   {
     id: "nivesh-ai",
@@ -49,6 +52,7 @@ export const projects: Project[] = [
     repo: "https://github.com/akhil151/ai-verse.git",
     demo: "https://ai-verse-zhe6.vercel.app/",
     image: "/assests/projects/nivesh.jpeg",
+    aspectRatio: "landscape",
   },
   {
     id: "agentic-ai",
@@ -61,5 +65,6 @@ export const projects: Project[] = [
     link: "https://github.com/akhil151/agenticai.git",
     repo: "https://github.com/akhil151/agenticai.git",
     image: "/assests/projects/agenticai.png",
+    aspectRatio: "landscape",
   },
 ];

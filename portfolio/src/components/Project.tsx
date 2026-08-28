@@ -1,5 +1,5 @@
 import Image, { StaticImageData } from "next/image";
-import { CustomLinkArrow } from "@/components/CustomLink";
+import { CustomLinkBracket } from "@/components/CustomLink";
 import dynamic from "next/dynamic";
 
 const CursorVideoReveal = dynamic(() => import("@/components/CursorVideoReveal"), {
@@ -15,6 +15,7 @@ interface ProjectInterface {
   tags: string[];
   summary?: string;
   year?: string;
+  aspectRatio?: "landscape" | "portrait" | "square" | string;
   className?: string;
 }
 
@@ -22,28 +23,47 @@ export default function Project({
   src,
   title,
   link,
-  demo,
   tags,
   summary,
   year,
+  aspectRatio = "landscape",
   className = "",
   video,
 }: ProjectInterface) {
+  const isPortrait =
+    aspectRatio === "portrait" ||
+    (typeof src === "string" && src.includes("elephant"));
+
   return (
     <article className={`relative w-full flex flex-col items-start justify-start ${className}`}>
       {/* Project Visual / Image Thumbnail */}
-      <div className="relative aspect-[16/10] w-full bg-black/5 overflow-hidden border border-black/10">
-        <Image
-          src={src}
-          alt={title}
-          fill
-          className="object-contain object-center p-2"
-          sizes="(max-width: 768px) 100vw, 45vw"
-          priority={false}
-        />
-
-        {video ? <CursorVideoReveal videoSrc={video} /> : null}
-      </div>
+      {isPortrait ? (
+        <div className="relative w-full bg-black/5 overflow-hidden border border-black/10 flex items-center justify-center py-6 sm:py-8 px-4">
+          <div className="relative w-full max-w-[210px] sm:max-w-[240px] lg:max-w-[260px] aspect-[590/1280] rounded-2xl overflow-hidden shadow-md border border-black/15 bg-[#0d1117]">
+            <Image
+              src={src}
+              alt={title}
+              fill
+              className="object-contain object-center"
+              sizes="(max-width: 768px) 70vw, 25vw"
+              priority={false}
+            />
+            {video ? <CursorVideoReveal videoSrc={video} /> : null}
+          </div>
+        </div>
+      ) : (
+        <div className="relative aspect-[16/10] w-full bg-black/5 overflow-hidden border border-black/10">
+          <Image
+            src={src}
+            alt={title}
+            fill
+            className="object-contain object-center p-2 sm:p-3"
+            sizes="(max-width: 768px) 100vw, 45vw"
+            priority={false}
+          />
+          {video ? <CursorVideoReveal videoSrc={video} /> : null}
+        </div>
+      )}
 
       {/* Project Details */}
       <div className="w-full pt-4 pb-2 flex flex-col gap-3">
@@ -56,31 +76,6 @@ export default function Project({
               </span>
             ) : null}
           </h2>
-
-          <div className="flex items-center gap-4 shrink-0">
-            {demo ? (
-              <div className="w-24 sm:w-28 shrink-0">
-                <CustomLinkArrow
-                  className="text-xs lg:text-sm text-black"
-                  name="Live Demo"
-                  url={demo}
-                  arrFrom="bottom right"
-                  arrTo="center center"
-                  arrSize={15}
-                />
-              </div>
-            ) : null}
-            <div className="w-20 sm:w-24 shrink-0">
-              <CustomLinkArrow
-                className="text-xs lg:text-sm text-black"
-                name="GitHub"
-                url={link}
-                arrFrom="bottom right"
-                arrTo="center center"
-                arrSize={15}
-              />
-            </div>
-          </div>
         </div>
 
         {summary ? (
@@ -97,6 +92,15 @@ export default function Project({
             </li>
           ))}
         </ul>
+
+        {/* Project Action */}
+        <div className="w-full flex items-center pt-2">
+          <CustomLinkBracket
+            name="GITHUB ↗"
+            url={link}
+            className="text-sm sm:text-base text-black cursor-pointer"
+          />
+        </div>
       </div>
     </article>
   );
