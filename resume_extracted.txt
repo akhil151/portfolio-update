@@ -1,0 +1,70 @@
+AKHILESH M P 
+Machine Learning Engineer | AI Engineer | Full - Stack Developer 
++91 9791485630 | Palanisamyakhil@gmail.com |   LinkedIn   |   github 
+PROFESSIONAL   SUMMARY 
+Aspiring AI/ML Engineer and Full - Stack Developer pursuing B.E. in CSE (AI & ML) at Sri Eshwar College of Engineering (2024 – 2028), with hands - on 
+experience across machine learning, computer vision, LLM - based agentic AI, RAG, and MERN full - stack deve lopment. Skilled in Python, 
+TensorFlow/PyTorch, FastAPI, and end - to - end deployment of AI/ML solutions. Seeking an entry - level AI/ML internship to apply strong DSA and applied - 
+ML fundamentals. 
+TECHNICAL SKILLS 
+Programming Languages:   Python, Java, C, C++, Ja vaScript, SQL, HTML, CSS 
+AI / Machine Learning:   Deep Learning, Computer Vision, NLP, LLM Agents, RAG, Prompt Engineering, TensorFlow/PyTorch, Scikit - Learn, Keras 
+Computer Vision:   OpenCV, YOLOv8, Object Detection, Image Processing 
+Generative AI:   Gemini API,   Groq LLaMA 3.3 70B, Stable Diffusion, ChromaDB 
+Web & App Development:   ReactJS, React Native, Node.js, Express.js, FastAPI, REST APIs, WebSocket, Socket.IO, MERN Stack 
+Databases:   MongoDB, PostgreSQL, ChromaDB, SQL 
+Data & Visualization:   Tableau, Power BI 
+To ols & Platforms:   Git, GitHub, VS Code, Playwright, Raspberry Pi, Canva 
+Core CS Concepts:   Data Structures & Algorithms, OOP, DBMS 
+PROJECTS 
+Elephant Detection   –   Real - Time Wildlife Alert System   2026 
+Python, YOLOv8, OpenCV, Raspberry Pi, WebSocket, Expo/React   Native 
+●   Trained a YOLOv8 computer vision model on a custom Roboflow dataset to detect elephants from a Raspberry Pi camera feed, broa dcasting live 
+WebSocket alerts to a mobile app to reduce human - wildlife conflict. 
+●   Deployed the trained model on edge hardwar e (Raspberry Pi) for on - device inference, avoiding cloud round - trip latency for time - critical alerts. 
+AEGIS - CPS   –   Enterprise AI - Powered Cyber - Physical Security Platform   2026 
+Python, FastAPI, Streamlit, AI Agents, Digital Twin, Machine Learning, Network Sec urity, Incident Response 
+●   Designed and built an enterprise cyber - physical security platform that protects connected robots and industrial systems using a six - layer detection 
+engine, explainable evidence fusion, AI - assisted incident investigation, digital tw in monitoring, and live network telemetry. 
+●   Developed an autonomous SOC workflow with AI investigation agents, evidence correlation, human - in - the - loop response approval, and an 
+enterprise command center featuring Fleet Operations, Incident Management,   Digital Twin, Live Monitoring, Analytics, and Response Center 
+dashboards. 
+Agentic AI Social Media Automation   2026 
+Python, Groq LLM, Stable Diffusion, Playwright 
+●   Developed an autonomous multi - agent system generating captions with Groq LLaMA 3.3 70B and   images with a locally - run Stable Diffusion 1.5 
+pipeline, then auto - publishing across 3 platforms (Facebook, Instagram, LinkedIn) via Playwright. 
+●   Engineered a 3 - strategy fallback upload flow and persistent session handling so the agent keeps posting reliabl y despite frequent platform UI 
+changes. 
+Nivesh.ai   –   Multilingual AI Funding Advisor   2025 
+React, FastAPI, Gemini API, ChromaDB, PostgreSQL 
+●   Built a Gemini - powered Retrieval - Augmented Generation (RAG) platform delivering a 0 – 100 funding readiness score and a   personalised 5 - step 
+action checklist for early - stage Indian founders, in their preferred language. 
+●   Designed a ChromaDB vector - retrieval pipeline paired with a PostgreSQL backend to ground funding recommendations in real startup data 
+rather than raw LLM out put. 
+INTERNSHIP EXPERIENCE 
+Agentic AI Intern   –   AptitudeGuru   2026 
+●   Studied LLM architecture internals, deep learning concepts (CNN layers, pooling, attention mechanisms), and Transformer funda mentals for 
+building autonomous AI agents. 
+●   Applied theoretical kno wledge through hands - on agent - building projects using prompt engineering and multi - agent orchestration. 
+Stack: Python, LLM Agents, Transformers, Prompt Engineering 
+MERN Stack Development Intern   –   EduCentro   2025 
+●   Built and integrated REST APIs for live proje ct modules using MongoDB, Express.js, React, and Node.js. 
+●   Strengthened practical skills in full - stack development, debugging, and production deployment. 
+Stack: MongoDB, Express.js, React, Node.js, REST APIs 
+EDUCATION 
+Sri Eshwar College of Engineering   –   B.E . CSE (AI & ML) (CGPA: 8.51, up to 4th Semester)   2024   –   2028 
+ST. ANTONY'S Matric Higher Secondary School   –   HSC (92.3%)   2023   –   2024 
+ST. ANTONY'S Matric Higher Secondary School   –   SSLC (86.6%)   2021   –   2022 
+CERTIFICATIONS 
+●   Fundamentals of Deep Learning   –   NVIDIA   (2026) 
+●   Data Analytics Virtual Job Simulation   –   Deloitte (Forage) (2026) 
+●   Design Thinking   –   NPTEL (2026) 
+●   Introduction to Machine Learning   –   NPTEL (2025) 
+●   Introduction to Python   –   Udemy (2025) 
+●   DSA Basics in C++   –   Udemy (2025) 
+●   Oracle Badge in Java   –   Oracle   (2025) 
+ACHIEVEMENTS & CODING PROFILES 
+●   1st Place   –   Creatathon (Web Development) | 1st Prize   –   Project Expo (Design Thinking) | 3rd Place   –   SCI - FIXX Bug Fixing Competition 
+●   Participated in 4+ national - level hackathons 
+●   LeetCode: 170+ problems solved | SkillRac k: 1200+ problems solved 
+
