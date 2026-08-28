@@ -1,0 +1,98 @@
+.infinite-menu-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.infinite-menu-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+  outline: none;
+}
+
+.infinite-menu-canvas:active {
+  cursor: grabbing;
+}
+
+/* Active Item Editorial HUD Card */
+.infinite-menu-info {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 10;
+  gap: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .infinite-menu-info {
+    bottom: 2rem;
+    left: 3rem;
+    right: 3rem;
+  }
+}
+
+.infinite-menu-text {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+}
+
+.infinite-menu-title {
+  font-family: var(--font-sofia-bold), sans-serif;
+  font-size: clamp(1.25rem, 3.5vw, 2rem);
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #101010;
+  margin: 0;
+}
+
+.infinite-menu-description {
+  font-family: var(--font-spline-light), monospace;
+  font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #666666;
+  margin-top: 0.35rem;
+}
+
+.infinite-menu-action {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  color: #101010;
+  transition: all 0.25s cubic-bezier(0.11, 0.82, 0.39, 0.92);
+  text-decoration: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.infinite-menu-action:hover {
+  background-color: #101010;
+  color: #ffffff;
+  border-color: #101010;
+  transform: scale(1.05);
+}
+
+.infinite-menu-action:active {
+  transform: scale(0.95);
+}

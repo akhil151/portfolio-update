@@ -1,39 +1,35 @@
-import TextRipple from "@/animations/TextRipple"
+import TextRipple from "@/animations/TextRipple";
 
 export default function ConnectTitle() {
-    return (
-        <header className="w-full h-[50svh] flex flex-col py-6 lg:py-2 px-4 lg:px-2 items-center justify-center overflow-hidden">
-            {/* Subtitle 1 */}
-            <p className="leading-[0.90] sofiaSemiBold tracking-tight text-xl lg:text-2xl py-2 uppercase text-center">
-                LET&apos;S START THE CONVERSATION
-            </p>
+  return (
+    <header className="w-full py-8 lg:py-12 flex flex-col px-4 items-center justify-center overflow-hidden">
+      <p className="leading-tight sofiaSemiBold tracking-tight text-lg lg:text-xl py-2 uppercase text-center text-black/60">
+        LET&apos;S START THE CONVERSATION
+      </p>
 
-            {/* Main Title 1 */}
-            <h1 className="text-[15vw] lg:text-[7vw] leading-[0.90] px-6 pt-1 pb-5 sofiaBold tracking-[-0.05em] uppercase text-center">
-                <TextRipple 
-                    text="Great &nbsp; Work"
-                    delayOffset={1} 
-                    blur={false} 
-                    duration={1}
-                    scrub={true}
-                />
-            </h1>
+      <h1 className="text-[14vw] sm:text-[10vw] lg:text-[6.5vw] leading-[0.88] px-4 pt-1 pb-2 sofiaBold tracking-[-0.04em] uppercase text-center">
+        <TextRipple
+          text="Great &nbsp; Work"
+          delayOffset={0.5}
+          blur={false}
+          duration={0.8}
+          scrub={true}
+        />
+      </h1>
 
-            {/* Middle Label - Reduced tracking for mobile */}
-            <p className="leading-[0.90] splineRegular tracking-[0.4rem] lg:tracking-[1.25rem] py-4 lg:py-2 text-sm lg:text-sm uppercase text-center">
-                Starts With
-            </p>
+      <p className="leading-tight splineRegular tracking-[0.3rem] lg:tracking-[0.8rem] py-2 text-xs lg:text-sm uppercase text-center text-black/50">
+        Starts With
+      </p>
 
-            {/* Main Title 2 */}
-            <h1 className="text-[15vw] lg:text-[7vw] leading-[0.90] px-4 pt-1 sofiaBold tracking-[-0.05em] uppercase text-center">
-                <TextRipple 
-                    text="Great &nbsp; collabs"
-                    delayOffset={1.005} 
-                    blur={false} 
-                    duration={1}
-                    scrub={true}
-                />
-            </h1>
-        </header>
-    )
+      <h1 className="text-[14vw] sm:text-[10vw] lg:text-[6.5vw] leading-[0.88] px-4 pt-1 sofiaBold tracking-[-0.04em] uppercase text-center">
+        <TextRipple
+          text="Great &nbsp; Collabs"
+          delayOffset={0.6}
+          blur={false}
+          duration={0.8}
+          scrub={true}
+        />
+      </h1>
+    </header>
+  );
 }

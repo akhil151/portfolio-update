@@ -2,7 +2,6 @@ import Image, { StaticImageData } from "next/image";
 import { CustomLinkArrow } from "@/components/CustomLink";
 import dynamic from "next/dynamic";
 
-// Lazy load heavy component
 const CursorVideoReveal = dynamic(() => import("@/components/CursorVideoReveal"), {
   ssr: false,
 });
@@ -25,55 +24,64 @@ export default function Project({
   tags,
   summary,
   year,
-  className,
+  className = "",
   video,
 }: ProjectInterface) {
   return (
-    <div className={`relative w-[90%] h-[58vh] ${className}`}>
-      <div className="relative h-[42.5vh] w-full overflow-hidden">
+    <article className={`relative w-full flex flex-col items-start justify-start ${className}`}>
+      {/* Project Visual / Image Thumbnail */}
+      <div className="relative aspect-[16/10] w-full bg-black/5 overflow-hidden border border-black/10">
         <Image
           src={src}
           alt={title}
           fill
-          className="object-contain object-center"
-          sizes="(max-width: 768px) 100vw, 90vw"
+          className="object-contain object-center p-2"
+          sizes="(max-width: 768px) 100vw, 45vw"
           priority={false}
         />
 
         {video ? <CursorVideoReveal videoSrc={video} /> : null}
       </div>
 
-      <aside className="h-[calc(58vh-42.5vh)] w-full flex flex-col items-start justify-start">
-        <div className="h-[30%] w-full flex flex-row items-start justify-between py-2">
-          <h2 className="text-[1.5rem] leading-[0.80] sofiaBold uppercase">
-            {title}
-            {year ? <span className="text-[1rem] splineLight ml-3 text-[#6c6c6c]">{year}</span> : null}
+      {/* Project Details */}
+      <div className="w-full pt-4 pb-2 flex flex-col gap-3">
+        <div className="w-full flex flex-row items-baseline justify-between gap-4 py-1">
+          <h2 className="text-2xl sm:text-3xl sofiaBold uppercase tracking-tight text-black flex items-baseline">
+            <span>{title}</span>
+            {year ? (
+              <span className="text-sm splineLight ml-3 text-[#6c6c6c]">
+                {year}
+              </span>
+            ) : null}
           </h2>
 
-          <CustomLinkArrow
-            className="text-[0.8rem] text-white max-w-28"
-            name="Visit Live"
-            url={link}
-            arrFrom="bottom right"
-            arrTo="center center"
-            arrSize={18}
-          />
+          <div className="w-28 shrink-0">
+            <CustomLinkArrow
+              className="text-xs lg:text-sm text-black max-w-28"
+              name="Visit Live"
+              url={link}
+              arrFrom="bottom right"
+              arrTo="center center"
+              arrSize={16}
+            />
+          </div>
         </div>
 
         {summary ? (
-          <p className="text-[#6c6c6c] text-[0.85rem] splineLight leading-snug mt-1 mb-2 line-clamp-4">
+          <p className="text-[#555] text-xs sm:text-sm splineLight leading-relaxed line-clamp-3 sm:line-clamp-4">
             {summary}
           </p>
         ) : null}
 
-        <ul className="w-full h-full text-[#6c6c6c] text-[1rem] flex flex-col items-start justify-center gap-1 splineLight tracking-tighter leading-[0.90]">
+        <ul className="w-full flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[#777] splineLight uppercase tracking-tight pt-1">
           {tags.map((tag, index) => (
-            <li key={`${tag}-${index}`} className="uppercase">
-              {tag}
+            <li key={`${tag}-${index}`} className="flex items-center gap-1.5">
+              <span>/</span>
+              <span>{tag}</span>
             </li>
           ))}
         </ul>
-      </aside>
-    </div>
+      </div>
+    </article>
   );
 }

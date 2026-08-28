@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, Transition } from "framer-motion";
 import Link from "next/link";
-import { CustomLinkArrow, CustomLink, CustomLinkBracket } from "./CustomLink";
+import { CustomLink, CustomLinkBracket } from "./CustomLink";
 import TextRipple from "@/animations/TextRipple";
 import { Underline } from "@/components/Underline";
 import { useDevice } from "@/hooks/useDevice";
@@ -11,7 +11,7 @@ import { site, socials, navItems } from "@/config/site";
 
 export default function Footer() {
   const [time, setTime] = useState("");
-  const { isMobile, isDesktop } = useDevice();
+  const { isMobile } = useDevice();
 
   useEffect(() => {
     const updateTime = () => {
@@ -36,120 +36,137 @@ export default function Footer() {
   };
 
   return (
-    <main className="w-full min-h-screen lg:h-screen bg-(--bg-color) flex flex-col items-center justify-start px-6 lg:px-10 text-white!">
-
-      {isDesktop && (
-        <section className="w-full mt-12 lg:mt-19 h-auto lg:h-24.5 flex flex-col items-center lg:items-end justify-between gap-1 lg:gap-0">
+    <footer className="w-full bg-(--bg-color) flex flex-col items-center justify-between px-6 lg:px-12 pt-16 pb-8 text-black border-t border-black/10 overflow-hidden">
+      {/* Top Section: Direct Contact */}
+      <div className="w-full flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 pb-12 border-b border-black/10">
+        <div>
+          <p className="splineLight text-xs lg:text-sm uppercase tracking-widest text-black/50 mb-2">
+            Direct Line
+          </p>
           <Link
             href={site.phoneHref}
-            className="transition-all duration-300 ease-[cubic-bezier(0.11,0.82,0.39,0.92)] text-black text-[8vw] md:text-3xl lg:text-5xl lg:indent-19 sofiaBold leading-[0.90] uppercase text-center lg:text-right"
+            className="transition-all duration-300 text-black text-2xl sm:text-4xl lg:text-5xl sofiaBold leading-tight uppercase hover:text-black/60"
           >
-            <Underline lineClassName="bg-black mt-1 lg:mt-8" className="inline-block">
-              {isDesktop ? site.phone.replace("+91 ", "+91  ") : site.phone}
+            <Underline lineClassName="bg-black mt-1" className="inline-block">
+              {site.phone}
             </Underline>
           </Link>
+        </div>
+
+        <div className="text-left lg:text-right">
+          <p className="splineLight text-xs lg:text-sm uppercase tracking-widest text-black/50 mb-2">
+            Direct Email
+          </p>
           <Link
-            href={site.email}
-            className="transition-all duration-300 ease-[cubic-bezier(0.11,0.82,0.39,0.92)] text-black text-[5.5vw] md:text-2xl lg:text-5xl lg:indent-28 sofiaBold leading-[0.90] text-center lg:text-right break-all lg:break-normal"
+            href={`mailto:${site.email}`}
+            className="transition-all duration-300 text-black text-xl sm:text-3xl lg:text-4xl sofiaBold leading-tight hover:text-black/60 break-all"
           >
-            <Underline lineClassName="bg-black mt-1 lg:mt-10" className="inline-block">
+            <Underline lineClassName="bg-black mt-1" className="inline-block">
               {site.email}
             </Underline>
           </Link>
-        </section>
-      )}
-      {isMobile && (
-        <section className="w-full mt-16 lg:mt-19 h-auto lg:h-24.5 flex flex-col items-center lg:items-end justify-between gap-1 lg:gap-0"></section>
-      )}
+        </div>
+      </div>
 
-      <section className="w-full mt-10 lg:mt-3 h-auto lg:h-12 flex flex-wrap lg:flex-row items-center justify-center lg:justify-end gap-6 md:gap-10 lg:gap-20">
-        <CustomLinkArrow arrFrom="top right" arrTo="center center" className="mix-blend-difference! w-28 lg:w-32! text-[1.1rem] lg:text-[1.4rem]!" name="LinkedIN" url={socials.linkedin} />
-        <CustomLinkArrow arrFrom="top right" arrTo="center center" className="mix-blend-difference! w-24 lg:w-25! text-[1.1rem] lg:text-[1.4rem]!" name="GITHUB" url={socials.github} />
-      </section>
-
-      <section className="w-full lg:mt-0 h-25 lg:h-28 flex flex-col lg:flex-row items-center justify-center lg:items-start lg:justify-between lg:gap-0">
-        <div className="w-full lg:w-1/2 flex flex-col items-start justify-between lg:gap-0 border-y border-black/5 lg:border-none lg:py-0">
-          {isMobile ? (
-            <section className="w-full mt-12 lg:mt-19 h-auto lg:h-24.5 flex flex-col items-center lg:items-end justify-between gap-1 lg:gap-0">
-              <Link
-                href={site.phoneHref}
-                className="transition-all duration-300 ease-[cubic-bezier(0.11,0.82,0.39,0.92)] text-black text-[8vw] md:text-3xl lg:text-5xl lg:indent-19 sofiaBold leading-[0.90] uppercase text-center lg:text-right"
-              >
-                <Underline lineClassName="bg-black mt-1 lg:mt-8" className="inline-block">
-                  {site.phone}
-                </Underline>
-              </Link>
-              <Link
-                href={site.email}
-                className="transition-all duration-300 ease-[cubic-bezier(0.11,0.82,0.39,0.92)] text-black text-[5.5vw] md:text-2xl lg:text-5xl lg:indent-28 sofiaBold leading-[0.90] text-center lg:text-right break-all lg:break-normal"
-              >
-                <Underline lineClassName="bg-black mt-1 lg:mt-10" className="inline-block">
-                  {site.email}
-                </Underline>
-              </Link>
-            </section>
-          ) : (
-            <>
-              {navItems.map((item) => (
-                <CustomLink key={item.url} name={item.name} url={item.url} className="text-[1.35rem] splineRegular w-fit!" />
-              ))}
-            </>
-          )}
+      {/* Middle Navigation & Socials Row */}
+      <div className="w-full py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 border-b border-black/10">
+        <div className="flex flex-wrap items-center gap-6 lg:gap-10">
+          {navItems.map((item) => (
+            <CustomLink
+              key={item.url}
+              name={item.name}
+              url={item.url}
+              className="text-base lg:text-lg splineRegular text-black w-fit!"
+            />
+          ))}
         </div>
 
-        {isDesktop && (
-          <div className="w-full lg:w-1/2 h-full flex flex-col items-end justify-end text-right">
-            <p className="splineLight text-[0.7rem] text-black! leading-[1.1]">
-              Address: <br />
-              {site.location}
-            </p>
-          </div>
-        )}
-      </section>
+        <div className="flex items-center gap-6">
+          <CustomLinkBracket
+            className="w-24 text-sm lg:text-base text-black"
+            name="GitHub"
+            url={socials.github}
+          />
+          <CustomLinkBracket
+            className="w-28 text-sm lg:text-base text-black"
+            name="LinkedIn"
+            url={socials.linkedin}
+          />
+        </div>
+      </div>
 
-      <section className="w-full mt-10 lg:mt-6 h-auto lg:h-12 flex flex-row items-center justify-between gap-4 lg:gap-0 overflow-x-auto no-scrollbar">
-        <CustomLinkBracket className="mix-blend-difference! shrink-0 w-28 lg:w-32! text-[1.1rem] lg:text-[1.2rem]!" name="GitHub" url={socials.github} />
-        <CustomLinkBracket className="mix-blend-difference! shrink-0 w-24 lg:w-25! text-[1.1rem] lg:text-[1.2rem]!" name="LinkedIn" url={socials.linkedin} />
-      </section>
-
-      <section className="w-full h-auto min-h-40 lg:h-61.5 mt-12 lg:mt-5 flex items-center justify-center overflow-hidden">
+      {/* Large Typography Brand Marquee */}
+      <div className="w-full py-12 lg:py-16 flex items-center justify-center overflow-hidden">
         {isMobile ? (
-          <h1 className="text-[22vw] text-black! leading-[0.8] py-2 sofiaBold tracking-[-0.07em] uppercase flex flex-col items-center">
-            <TextRipple reverse text="Akhilesh" className="block" delayOffset={0.5} blur={false} duration={1} scrub={true} />
-            <TextRipple reverse text="M P" className="block" delayOffset={0.7} blur={false} duration={1} scrub={true} />
+          <h1 className="text-[20vw] text-black leading-[0.85] sofiaBold tracking-[-0.05em] uppercase flex flex-col items-center text-center">
+            <TextRipple
+              reverse
+              text="AKHILESH"
+              className="block"
+              delayOffset={0.3}
+              blur={false}
+              duration={0.8}
+              scrub={true}
+            />
+            <TextRipple
+              reverse
+              text="M P"
+              className="block"
+              delayOffset={0.5}
+              blur={false}
+              duration={0.8}
+              scrub={true}
+            />
           </h1>
         ) : (
-          <h1 className="text-[15vw] text-black! leading-[0.90] px-4 py-2 sofiaBold tracking-[-0.07em] uppercase whitespace-nowrap">
-            <TextRipple reverse text="Akhilesh M P" delayOffset={1} blur={false} duration={1} scrub={true} />
+          <h1 className="text-[14vw] text-black leading-[0.88] sofiaBold tracking-[-0.06em] uppercase whitespace-nowrap text-center">
+            <TextRipple
+              reverse
+              text="AKHILESH M P"
+              delayOffset={0.5}
+              blur={false}
+              duration={0.8}
+              scrub={true}
+            />
           </h1>
         )}
-      </section>
+      </div>
 
-      <section className="w-full h-auto lg:h-13 py-10 lg:py-0 flex flex-col lg:flex-row items-center text-black! justify-between gap-8 lg:gap-0 mt-auto border-t border-black/5 lg:border-none">
-        <p className="w-full lg:w-1/2 flex items-center justify-between lg:justify-start uppercase splineLight text-xs lg:text-md tracking-tighter">
-          {isDesktop ? (
-            <span>{site.location} &nbsp;|&nbsp; IST &nbsp;|&nbsp; {time || "00:00 AM"}</span>
-          ) : (
-            <>
-              <span>{site.location}</span>
-              <span>{time || "00:00 AM"} IST</span>
-            </>
-          )}
+      {/* Bottom Meta & Copyright Bar */}
+      <div className="w-full pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs splineLight text-black/60 border-t border-black/10">
+        <p className="uppercase tracking-tight text-center sm:text-left">
+          {site.location} &nbsp;|&nbsp; IST &nbsp;|&nbsp; {time || "00:00 AM"}
         </p>
 
-        <motion.p initial="initial" whileHover="hover" className="flex items-center justify-center lg:justify-start uppercase splineRegular text-sm tracking-tight cursor-default">
+        <motion.p
+          initial="initial"
+          whileHover="hover"
+          className="flex items-center justify-center uppercase splineRegular text-xs tracking-tight cursor-default"
+        >
           <span className="whitespace-pre">Ref - </span>
           <span className="relative inline-grid overflow-hidden h-[1.2em]">
-            <motion.span style={{ gridArea: "1 / 1" }} variants={{ initial: { y: 0 }, hover: { y: "-100%" } }} transition={swapTransition}>PORT</motion.span>
-            <motion.span style={{ gridArea: "1 / 1" }} className="whitespace-nowrap" variants={{ initial: { y: "100%" }, hover: { y: 0 } }} transition={swapTransition}>Portfolio</motion.span>
+            <motion.span
+              style={{ gridArea: "1 / 1" }}
+              variants={{ initial: { y: 0 }, hover: { y: "-100%" } }}
+              transition={swapTransition}
+            >
+              PORT
+            </motion.span>
+            <motion.span
+              style={{ gridArea: "1 / 1" }}
+              className="whitespace-nowrap"
+              variants={{ initial: { y: "100%" }, hover: { y: 0 } }}
+              transition={swapTransition}
+            >
+              Portfolio
+            </motion.span>
           </span>
         </motion.p>
 
-        <p className="splineLight text-gray-400 text-[0.65rem] leading-tight text-center lg:text-right">
-          © {new Date().getFullYear()} {site.name} <br className="hidden lg:block" />
-          Unauthorized reproduction is prohibited.
+        <p className="text-center sm:text-right">
+          © {new Date().getFullYear()} {site.name}. All rights reserved.
         </p>
-      </section>
-    </main>
+      </div>
+    </footer>
   );
 }

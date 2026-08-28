@@ -1,9 +1,9 @@
-import Hero from "@/components/Hero"
-import About from "./about/page";
-import Works from "./works/page";
+import Hero from "@/components/Hero";
 import AboutTitle from "@/components/AboutTitle";
+import About from "./about/page";
+import InfiniteMenu from "@/components/InfiniteMenu";
 import RecentWorksTitle from "@/components/RecentWorksTitle";
-import Scene from "@/components/Scene"
+import Works from "./works/page";
 import Services from "./services/page";
 import AchievementsTitle from "@/components/AchievementsTitle";
 import Achievements from "./achievements/page";
@@ -11,13 +11,16 @@ import Connect from "./connect/page";
 
 export default function Home() {
   return (
-    <main id='home' className={`bg-(--bg-color) sofiaBold min-h-full h-auto overflow-x-hidden! w-full flex flex-col items-start justify-center `}>
+    <main
+      id="home"
+      className="bg-(--bg-color) sofiaBold min-h-screen w-full flex flex-col items-start justify-start overflow-x-hidden"
+    >
       <Hero />
       <AboutTitle />
       <About />
+      <InfiniteMenu />
       <RecentWorksTitle />
       <Works />
-      <Scene />
       <Services />
       <AchievementsTitle />
       <Achievements />
