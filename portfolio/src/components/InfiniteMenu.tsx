@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { mat4, quat, vec2, vec3 } from "gl-matrix";
-import { ArrowUpRight } from "lucide-react";
+import { mat4, quat, vec3 } from "gl-matrix";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { socials } from "@/config/site";
 import "./InfiniteMenu.css";
 
@@ -15,58 +15,82 @@ export interface MenuItem {
 
 export const defaultArchiveItems: MenuItem[] = [
   {
-    image: "/achievements/creathon.jpeg",
+    image: "/assests/archive-normalized/creathon.jpg",
     link: socials.linkedin,
     title: "CREATATHON — 1ST PLACE",
-    description: "Web Development · 2026",
+    description: "Web Development · 2024",
   },
   {
-    image: "/achievements/projectexpo.jpeg",
+    image: "/assests/archive-normalized/projectexpo.jpeg",
     link: socials.linkedin,
     title: "PROJECT EXPO — 1ST PRIZE",
     description: "Design Thinking · 2026",
   },
   {
-    image: "/achievements/scifixx.jpeg",
+    image: "/assests/archive-normalized/scifixx.jpg",
     link: socials.linkedin,
     title: "SCI-FIXX — 3RD PLACE",
-    description: "Bug Fixing Competition · 2026",
+    description: "Bug Fixing & Web Challenge · 2026",
   },
   {
-    image: "/achievements/hackathons/WhatsApp Image 2026-08-28 at 6.54.37 PM.jpeg",
+    image: "/assests/archive-normalized/codex_certificate.jpeg",
     link: socials.github,
-    title: "NATIONAL HACKATHON",
-    description: "4+ National Hackathons · 2025",
+    title: "CHATGPT CODEX HACKATHON",
+    description: "Web3 Sabha & BlockseBlock · 2026",
   },
   {
-    image: "/achievements/hackathons/WhatsApp Image 2026-08-28 at 6.54.59 PM.jpeg",
-    link: socials.github,
-    title: "HACKATHON FINALIST",
-    description: "AI & Embedded Systems · 2025",
+    image: "/assests/archive-normalized/workshop_design_and_development.jpeg",
+    link: socials.linkedin,
+    title: "DESIGN & DEVELOPMENT WORKSHOP",
+    description: "Prototype & Process Design · IIC · 2025",
   },
   {
-    image: "/assests/certificates/codex_certificate.jpeg",
+    image: "/assests/archive-normalized/samsang_certificate.jpeg",
+    link: socials.linkedin,
+    title: "SAMSUNG SOLVE FOR TOMORROW",
+    description: "Design Thinking & Innovation · 2026",
+  },
+  {
+    image: "/assests/archive-normalized/nvidia_deep_learning.png",
     link: socials.linkedin,
     title: "NVIDIA DEEP LEARNING",
     description: "Fundamentals of Deep Learning · 2026",
   },
   {
-    image: "/assests/certificates/WhatsApp Image 2026-08-28 at 6.51.24 PM.jpeg",
+    image: "/assests/archive-normalized/Delotte_DataAnalyst.jpeg",
+    link: socials.linkedin,
+    title: "DELOITTE DATA ANALYTICS",
+    description: "Virtual Job Simulation · Forage · 2026",
+  },
+  {
+    image: "/assests/archive-normalized/nptel_design_thinking.png",
+    link: socials.linkedin,
+    title: "DESIGN THINKING — NPTEL",
+    description: "Elite Certification (80%) · IIT Madras · 2026",
+  },
+  {
+    image: "/assests/archive-normalized/nptel_ml.png",
     link: socials.linkedin,
     title: "MACHINE LEARNING — NPTEL",
-    description: "Intro to Machine Learning · 2025",
+    description: "Introduction to Machine Learning · IIT Madras · 2025",
   },
   {
-    image: "/assests/certificates/WhatsApp Image 2026-08-28 at 6.53.10 PM.jpeg",
+    image: "/assests/archive-normalized/cloud_certificate.png",
     link: socials.linkedin,
-    title: "CLOUD & DISTRIBUTED SYSTEMS",
-    description: "Cloud Infrastructure · 2025",
+    title: "CLOUD COMPUTING WITH AI",
+    description: "Course Completion · Unstop · 2025",
   },
   {
-    image: "/assests/certificates/WhatsApp Image 2026-08-28 at 6.53.43 PM.jpeg",
+    image: "/assests/archive-normalized/Mernstack_intern_certificate.jpeg",
     link: socials.linkedin,
-    title: "DATA STRUCTURES & ALGORITHMS",
-    description: "DSA in C++ · 2025",
+    title: "MERN STACK INTERNSHIP",
+    description: "Full-Stack Developer · EduCentro · 2025",
+  },
+  {
+    image: "/assests/archive-normalized/DSA_concept.jpeg",
+    link: socials.linkedin,
+    title: "DATA STRUCTURES & ARRAYS",
+    description: "C Programming · Infosys Springboard · 2025",
   },
 ];
 
@@ -76,38 +100,60 @@ precision highp float;
 uniform mat4 uWorldMatrix;
 uniform mat4 uViewMatrix;
 uniform mat4 uProjectionMatrix;
-uniform vec3 uCameraPosition;
 uniform vec4 uRotationAxisVelocity;
+uniform float uSphereOpenProgress;
 
 in vec3 aModelPosition;
 in vec3 aModelNormal;
 in vec2 aModelUvs;
-in mat4 aInstanceMatrix;
+in vec3 aInstancePosition;
 
 out vec2 vUvs;
 out float vAlpha;
 flat out int vInstanceId;
 
 void main() {
-    vec4 worldPosition = uWorldMatrix * aInstanceMatrix * vec4(aModelPosition, 1.0);
-    vec3 centerPos = (uWorldMatrix * aInstanceMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
-    float radius = length(centerPos.xyz);
+    // 3D center position of this disc on the rotating sphere
+    vec3 centerPos = (uWorldMatrix * vec4(aInstancePosition, 1.0)).xyz;
+    vec3 normCenter = normalize(centerPos);
 
+    // Front-facing indicator: 1.0 when facing directly at camera (+Z)
+    float facingFront = smoothstep(0.85, 0.995, normCenter.z);
+
+    // Scale dynamics:
+    // When resting (uSphereOpenProgress = 0.0): center item is 1.38x (medium focal circle), others scale to 0.0
+    // When dragging (uSphereOpenProgress = 1.0): center item is 1.0x, surrounding items are 1.0x on compact 3D sphere
+    float selectedScale = mix(1.38, 1.0, uSphereOpenProgress);
+    float peripheralScale = mix(0.0, 1.0, uSphereOpenProgress);
+    float dynamicScale = mix(peripheralScale, selectedScale, facingFront);
+
+    // Camera-facing / Billboard offset in screen plane (X, Y)
+    // Ensures every image ALWAYS faces the camera and NEVER shows its backside
+    vec3 localOffset = aModelPosition * dynamicScale;
+
+    // Kinetic elastic stretch distortion on perimeter vertices along angular velocity
     if (gl_VertexID > 0) {
         vec3 rotationAxis = uRotationAxisVelocity.xyz;
-        float rotationVelocity = min(0.15, uRotationAxisVelocity.w * 15.0);
-        vec3 stretchDir = normalize(cross(centerPos, rotationAxis + vec3(0.0001, 0.0, 0.0)));
-        vec3 relativeVertexPos = normalize(worldPosition.xyz - centerPos);
-        float strength = dot(stretchDir, relativeVertexPos);
+        float rotationVelocity = min(0.16, uRotationAxisVelocity.w * 16.0);
+        vec3 stretchDir = normalize(vec3(-rotationAxis.y, rotationAxis.x, 0.0) + vec3(0.0001, 0.0001, 0.0));
+        vec3 relPos = normalize(localOffset);
+        float strength = dot(stretchDir, relPos);
         float invAbsStrength = min(0.0, abs(strength) - 1.0);
         strength = rotationVelocity * sign(strength) * abs(invAbsStrength * invAbsStrength * invAbsStrength + 1.0);
-        worldPosition.xyz += stretchDir * strength;
+        localOffset += stretchDir * strength * dynamicScale;
     }
 
-    worldPosition.xyz = radius * normalize(worldPosition.xyz);
-    gl_Position = uProjectionMatrix * uViewMatrix * worldPosition;
+    // World position = 3D sphere center + camera-facing billboard offset
+    vec3 worldPos = centerPos + localOffset;
+    gl_Position = uProjectionMatrix * uViewMatrix * vec4(worldPos, 1.0);
 
-    vAlpha = smoothstep(0.2, 1.0, normalize(worldPosition.xyz).z) * 0.9 + 0.1;
+    // Opacity:
+    // At rest (uSphereOpenProgress = 0.0): only the selected front item has alpha 1.0; others are 0.0
+    // During drag (uSphereOpenProgress = 1.0): full compact 3D sphere with smooth depth fade
+    float spatialAlpha = smoothstep(-0.6, 0.85, normCenter.z) * 0.70 + 0.30;
+    float peripheralAlpha = mix(0.0, spatialAlpha, uSphereOpenProgress);
+    vAlpha = mix(peripheralAlpha, 1.0, facingFront);
+
     vUvs = aModelUvs;
     vInstanceId = gl_InstanceID;
 }
@@ -134,171 +180,64 @@ void main() {
     vec2 cellSize = vec2(1.0) / vec2(float(cellsPerRow));
     vec2 cellOffset = vec2(float(cellX), float(cellY)) * cellSize;
 
-    ivec2 texSize = textureSize(uTex, 0);
-    float imageAspect = float(texSize.x) / float(texSize.y);
-    float containerAspect = 1.0;
-    float scale = max(imageAspect / containerAspect, containerAspect / imageAspect);
-
+    // Direct 1:1 cover mapping: image fills the entire circular disc
     vec2 st = vec2(vUvs.x, 1.0 - vUvs.y);
-    st = (st - 0.5) * scale + 0.5;
     st = clamp(st, 0.0, 1.0);
     st = st * cellSize + cellOffset;
 
-    outColor = texture(uTex, st);
-    outColor.a *= vAlpha;
+    vec4 texColor = texture(uTex, st);
+
+    // Clean circular disc clipping & edge anti-aliasing
+    float dist = length(vUvs - vec2(0.5));
+    float circleMask = 1.0 - smoothstep(0.485, 0.5, dist);
+
+    // Subtle dark border ring for crisp geometry definition
+    float ring = smoothstep(0.47, 0.49, dist) * circleMask;
+    vec4 finalColor = mix(texColor, vec4(0.0, 0.0, 0.0, 0.25), ring * 0.45);
+
+    outColor = finalColor;
+    outColor.a *= vAlpha * circleMask;
 }
 `;
 
-class Face {
-  a: number;
-  b: number;
-  c: number;
-  constructor(a: number, b: number, c: number) {
-    this.a = a;
-    this.b = b;
-    this.c = c;
-  }
-}
+// Perfect Circular Disc Geometry
+class DiscGeometry {
+  vertices: number[] = [];
+  normals: number[] = [];
+  uvs: number[] = [];
+  indices: number[] = [];
 
-class Vertex {
-  position: vec3;
-  normal: vec3;
-  uv: vec2;
-  constructor(x: number, y: number, z: number) {
-    this.position = vec3.fromValues(x, y, z);
-    this.normal = vec3.create();
-    this.uv = vec2.create();
-  }
-}
+  constructor(steps = 64, radius = 0.38) {
+    const alpha = (2 * Math.PI) / steps;
 
-class Geometry {
-  vertices: Vertex[] = [];
-  faces: Face[] = [];
+    // Center vertex
+    this.vertices.push(0, 0, 0);
+    this.normals.push(0, 0, 1);
+    this.uvs.push(0.5, 0.5);
 
-  addVertex(x: number, y: number, z: number) {
-    this.vertices.push(new Vertex(x, y, z));
-    return this;
-  }
+    // Perimeter vertices
+    for (let i = 0; i < steps; ++i) {
+      const cosA = Math.cos(alpha * i);
+      const sinA = Math.sin(alpha * i);
+      this.vertices.push(radius * cosA, radius * sinA, 0);
+      this.normals.push(0, 0, 1);
+      this.uvs.push(cosA * 0.5 + 0.5, sinA * 0.5 + 0.5);
 
-  addFace(a: number, b: number, c: number) {
-    this.faces.push(new Face(a, b, c));
-    return this;
-  }
-
-  get lastVertex() {
-    return this.vertices[this.vertices.length - 1];
-  }
-
-  subdivide(divisions = 1) {
-    const midPointCache: Record<string, number> = {};
-    let f = this.faces;
-
-    for (let div = 0; div < divisions; ++div) {
-      const newFaces = new Array(f.length * 4);
-
-      f.forEach((face, ndx) => {
-        const mAB = this.getMidPoint(face.a, face.b, midPointCache);
-        const mBC = this.getMidPoint(face.b, face.c, midPointCache);
-        const mCA = this.getMidPoint(face.c, face.a, midPointCache);
-
-        const i = ndx * 4;
-        newFaces[i + 0] = new Face(face.a, mAB, mCA);
-        newFaces[i + 1] = new Face(face.b, mBC, mAB);
-        newFaces[i + 2] = new Face(face.c, mCA, mBC);
-        newFaces[i + 3] = new Face(mAB, mBC, mCA);
-      });
-
-      f = newFaces;
+      if (i > 0) {
+        this.indices.push(0, i, i + 1);
+      }
     }
-
-    this.faces = f;
-    return this;
-  }
-
-  spherize(radius = 1) {
-    this.vertices.forEach((vertex) => {
-      vec3.normalize(vertex.normal, vertex.position);
-      vec3.scale(vertex.position, vertex.normal, radius);
-    });
-    return this;
+    this.indices.push(0, steps, 1);
   }
 
   get vertexData() {
-    return new Float32Array(this.vertices.flatMap((v) => Array.from(v.position)));
+    return new Float32Array(this.vertices);
   }
-
-  get normalData() {
-    return new Float32Array(this.vertices.flatMap((v) => Array.from(v.normal)));
-  }
-
   get uvData() {
-    return new Float32Array(this.vertices.flatMap((v) => Array.from(v.uv)));
+    return new Float32Array(this.uvs);
   }
-
   get indexData() {
-    return new Uint16Array(this.faces.flatMap((f) => [f.a, f.b, f.c]));
-  }
-
-  getMidPoint(ndxA: number, ndxB: number, cache: Record<string, number>) {
-    const cacheKey = ndxA < ndxB ? `k_${ndxB}_${ndxA}` : `k_${ndxA}_${ndxB}`;
-    if (Object.prototype.hasOwnProperty.call(cache, cacheKey)) {
-      return cache[cacheKey];
-    }
-    const a = this.vertices[ndxA].position;
-    const b = this.vertices[ndxB].position;
-    const ndx = this.vertices.length;
-    cache[cacheKey] = ndx;
-    this.addVertex((a[0] + b[0]) * 0.5, (a[1] + b[1]) * 0.5, (a[2] + b[2]) * 0.5);
-    return ndx;
-  }
-}
-
-class IcosahedronGeometry extends Geometry {
-  constructor() {
-    super();
-    const t = Math.sqrt(5) * 0.5 + 0.5;
-    const v = [
-      -1, t, 0, 1, t, 0, -1, -t, 0, 1, -t, 0,
-      0, -1, t, 0, 1, t, 0, -1, -t, 0, 1, -t,
-      t, 0, -1, t, 0, 1, -t, 0, -1, -t, 0, 1
-    ];
-    for (let i = 0; i < v.length; i += 3) {
-      this.addVertex(v[i], v[i + 1], v[i + 2]);
-    }
-    const f = [
-      0, 11, 5, 0, 5, 1, 0, 1, 7, 0, 7, 10, 0, 10, 11,
-      1, 5, 9, 5, 11, 4, 11, 10, 2, 10, 7, 6, 7, 1, 8,
-      3, 9, 4, 3, 4, 2, 3, 2, 6, 3, 6, 8, 3, 8, 9,
-      4, 9, 5, 2, 4, 11, 6, 2, 10, 8, 6, 7, 9, 8, 1
-    ];
-    for (let i = 0; i < f.length; i += 3) {
-      this.addFace(f[i], f[i + 1], f[i + 2]);
-    }
-  }
-}
-
-class DiscGeometry extends Geometry {
-  constructor(steps = 32, radius = 1) {
-    super();
-    steps = Math.max(4, steps);
-    const alpha = (2 * Math.PI) / steps;
-
-    this.addVertex(0, 0, 0);
-    this.lastVertex.uv[0] = 0.5;
-    this.lastVertex.uv[1] = 0.5;
-
-    for (let i = 0; i < steps; ++i) {
-      const x = Math.cos(alpha * i);
-      const y = Math.sin(alpha * i);
-      this.addVertex(radius * x, radius * y, 0);
-      this.lastVertex.uv[0] = x * 0.5 + 0.5;
-      this.lastVertex.uv[1] = y * 0.5 + 0.5;
-
-      if (i > 0) {
-        this.addFace(0, i, i + 1);
-      }
-    }
-    this.addFace(0, steps, 1);
+    return new Uint16Array(this.indices);
   }
 }
 
@@ -333,6 +272,26 @@ function createProgram(
   return program;
 }
 
+// Generate genuine 3D Fibonacci Sphere distribution for exactly N items
+function generateFibonacciSpherePositions(count: number, radius: number): vec3[] {
+  const positions: vec3[] = [];
+  const phi = (1 + Math.sqrt(5)) / 2; // Golden ratio
+
+  for (let i = 0; i < count; i++) {
+    // y smoothly distributes from +1 (top pole) to -1 (bottom pole)
+    const y = 1 - (i / (count - 1)) * 2;
+    const rAtY = Math.sqrt(Math.max(0, 1 - y * y));
+    const theta = 2 * Math.PI * i / phi;
+
+    const x = Math.cos(theta) * rAtY;
+    const z = Math.sin(theta) * rAtY;
+
+    positions.push(vec3.fromValues(x * radius, y * radius, z * radius));
+  }
+
+  return positions;
+}
+
 interface InfiniteMenuProps {
   items?: MenuItem[];
   scale?: number;
@@ -347,6 +306,8 @@ export default function InfiniteMenu({
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
+
+  const navigateToItemRef = useRef<((idx: number) => void) | null>(null);
 
   const activeIndexRef = useRef(0);
   const handleActiveIndexChange = useCallback((idx: number) => {
@@ -382,18 +343,21 @@ export default function InfiniteMenu({
     const uViewMatrixLoc = gl.getUniformLocation(program, "uViewMatrix");
     const uProjectionMatrixLoc = gl.getUniformLocation(program, "uProjectionMatrix");
     const uRotationAxisVelocityLoc = gl.getUniformLocation(program, "uRotationAxisVelocity");
+    const uSphereOpenProgressLoc = gl.getUniformLocation(program, "uSphereOpenProgress");
     const uItemCountLoc = gl.getUniformLocation(program, "uItemCount");
     const uAtlasSizeLoc = gl.getUniformLocation(program, "uAtlasSize");
 
-    const sphereGeometry = new IcosahedronGeometry();
-    sphereGeometry.subdivide(1).spherize(1.6);
+    const itemCount = items.length;
+    const sphereRadius = 1.25; // Compact tight 3D sphere radius
+    const spherePositions = generateFibonacciSpherePositions(itemCount, sphereRadius);
 
-    const discGeometry = new DiscGeometry(32, 0.42 * scale);
+    // Circular Disc Geometry
+    const discGeometry = new DiscGeometry(64, 0.38 * scale);
 
     const vao = gl.createVertexArray();
     gl.bindVertexArray(vao);
 
-    // Disc Vertex Buffer (Positions)
+    // Vertex Buffer
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, discGeometry.vertexData, gl.STATIC_DRAW);
@@ -401,7 +365,7 @@ export default function InfiniteMenu({
     gl.enableVertexAttribArray(aModelPositionLoc);
     gl.vertexAttribPointer(aModelPositionLoc, 3, gl.FLOAT, false, 0, 0);
 
-    // Disc UV Buffer
+    // UV Buffer
     const uvBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, discGeometry.uvData, gl.STATIC_DRAW);
@@ -409,48 +373,35 @@ export default function InfiniteMenu({
     gl.enableVertexAttribArray(aModelUvsLoc);
     gl.vertexAttribPointer(aModelUvsLoc, 2, gl.FLOAT, false, 0, 0);
 
-    // Disc Indices
+    // Index Buffer
     const indexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, discGeometry.indexData, gl.STATIC_DRAW);
 
-    // Instance Matrices for each disc on the sphere
-    const instanceCount = sphereGeometry.vertices.length;
-    const instanceMatrices = new Float32Array(instanceCount * 16);
+    // Instance Positions on the 3D Fibonacci Sphere (1-to-1 unique mapping, no duplicates)
+    const instancePositionsArray = new Float32Array(itemCount * 3);
     const instanceNormals: vec3[] = [];
 
-    sphereGeometry.vertices.forEach((vertex, i) => {
-      const normal = vec3.clone(vertex.normal);
-      const position = vec3.clone(vertex.position);
+    spherePositions.forEach((pos, i) => {
+      instancePositionsArray[i * 3 + 0] = pos[0];
+      instancePositionsArray[i * 3 + 1] = pos[1];
+      instancePositionsArray[i * 3 + 2] = pos[2];
+
+      const normal = vec3.create();
+      vec3.normalize(normal, pos);
       instanceNormals.push(normal);
-
-      const matrix = mat4.create();
-      const target = vec3.create();
-      vec3.add(target, position, normal);
-
-      const up = vec3.fromValues(0, 1, 0);
-      if (Math.abs(vec3.dot(normal, up)) > 0.95) {
-        vec3.set(up, 1, 0, 0);
-      }
-
-      mat4.targetTo(matrix, position, target, up);
-      instanceMatrices.set(matrix, i * 16);
     });
 
-    const instanceMatrixBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, instanceMatrixBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, instanceMatrices, gl.STATIC_DRAW);
+    const instancePosBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, instancePosBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, instancePositionsArray, gl.STATIC_DRAW);
 
-    const aInstanceMatrixLoc = gl.getAttribLocation(program, "aInstanceMatrix");
-    for (let col = 0; col < 4; col++) {
-      const loc = aInstanceMatrixLoc + col;
-      gl.enableVertexAttribArray(loc);
-      gl.vertexAttribPointer(loc, 4, gl.FLOAT, false, 64, col * 16);
-      gl.vertexAttribDivisor(loc, 1);
-    }
+    const aInstancePositionLoc = gl.getAttribLocation(program, "aInstancePosition");
+    gl.enableVertexAttribArray(aInstancePositionLoc);
+    gl.vertexAttribPointer(aInstancePositionLoc, 3, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribDivisor(aInstancePositionLoc, 1);
 
     // Build Texture Atlas
-    const itemCount = items.length;
     const atlasSize = Math.ceil(Math.sqrt(itemCount));
     const texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -462,9 +413,20 @@ export default function InfiniteMenu({
     const ctx = atlasCanvas.getContext("2d");
 
     if (ctx) {
-      ctx.fillStyle = backgroundColor;
+      ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, atlasDim, atlasDim);
     }
+
+    const cellW = atlasDim / atlasSize;
+    const cellH = atlasDim / atlasSize;
+
+    const updateTexture = () => {
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, atlasCanvas);
+      gl.generateMipmap(gl.TEXTURE_2D);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    };
 
     let loadedImages = 0;
     items.forEach((item, index) => {
@@ -473,40 +435,47 @@ export default function InfiniteMenu({
       img.src = item.image;
       img.onload = () => {
         if (!ctx) return;
-        const cellW = atlasDim / atlasSize;
-        const cellH = atlasDim / atlasSize;
         const cellX = (index % atlasSize) * cellW;
         const cellY = Math.floor(index / atlasSize) * cellH;
 
-        // Cover fit into square cell
-        const imgAspect = img.width / img.height;
-        let dw = cellW;
-        let dh = cellH;
-        let dx = cellX;
-        let dy = cellY;
+        // Clean white background for the circular disc cell
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(cellX, cellY, cellW, cellH);
 
-        if (imgAspect > 1) {
-          dw = cellH * imgAspect;
-          dx = cellX - (dw - cellW) / 2;
-        } else {
-          dh = cellW / imgAspect;
-          dy = cellY - (dh - cellH) / 2;
-        }
+        // Aspect-ratio preserving contain logic:
+        // Fits the complete original image inside the circular disc boundary (radius 0.485)
+        // without any cropping, stretching, distortion, or alteration of original aspect ratio.
+        const naturalW = img.naturalWidth || img.width;
+        const naturalH = img.naturalHeight || img.height;
+        const diag = Math.hypot(naturalW, naturalH);
+        const maxCircleDiameter = cellW * 0.88;
+
+        const scaleFactor = Math.min(
+          maxCircleDiameter / diag,
+          (cellW * 0.90) / naturalW,
+          (cellH * 0.90) / naturalH
+        );
+
+        const drawW = naturalW * scaleFactor;
+        const drawH = naturalH * scaleFactor;
+        const drawX = cellX + (cellW - drawW) / 2;
+        const drawY = cellY + (cellH - drawH) / 2;
 
         ctx.save();
-        ctx.beginPath();
-        ctx.rect(cellX, cellY, cellW, cellH);
-        ctx.clip();
-        ctx.drawImage(img, dx, dy, dw, dh);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        ctx.drawImage(img, drawX, drawY, drawW, drawH);
         ctx.restore();
 
         loadedImages++;
+        updateTexture();
+      };
+
+      img.onerror = () => {
+        console.warn(`Failed to load archive asset: ${item.image}`);
+        loadedImages++;
         if (loadedImages === items.length) {
-          gl.bindTexture(gl.TEXTURE_2D, texture);
-          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, atlasCanvas);
-          gl.generateMipmap(gl.TEXTURE_2D);
-          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+          updateTexture();
         }
       };
     });
@@ -516,15 +485,20 @@ export default function InfiniteMenu({
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-    // Matrices
+    // Initial state: Align item 0's normal to (0, 0, 1) facing the camera
+    const currentQuat = quat.create();
+    if (instanceNormals.length > 0) {
+      quat.rotationTo(currentQuat, instanceNormals[0], vec3.fromValues(0, 0, 1));
+    }
+
+    const targetSnapQuat = quat.clone(currentQuat);
     const worldMatrix = mat4.create();
     const viewMatrix = mat4.create();
     const projectionMatrix = mat4.create();
-    const currentQuat = quat.create();
 
-    mat4.lookAt(viewMatrix, vec3.fromValues(0, 0, 4.4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 1, 0));
+    mat4.lookAt(viewMatrix, vec3.fromValues(0, 0, 3.4), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 1, 0));
 
-    // Interaction State
+    // Interaction & State Variables
     let isDown = false;
     let lastX = 0;
     let lastY = 0;
@@ -533,8 +507,24 @@ export default function InfiniteMenu({
     let angularSpeed = 0;
     const rotationAxis = vec3.fromValues(0, 1, 0);
 
+    // State A (0.0: Resting) <-> State B (1.0: Compact Dragging Sphere)
+    let sphereOpenProgress = 0.0;
+    let targetSphereOpen = 0.0;
+
+    // Navigation function
+    navigateToItemRef.current = (targetIndex: number) => {
+      const idx = ((targetIndex % itemCount) + itemCount) % itemCount;
+      const targetNorm = instanceNormals[idx];
+      quat.rotationTo(targetSnapQuat, targetNorm, vec3.fromValues(0, 0, 1));
+      velocityX = 0;
+      velocityY = 0;
+      targetSphereOpen = 1.0;
+      handleActiveIndexChange(idx);
+    };
+
     const onPointerDown = (e: MouseEvent | TouchEvent) => {
       isDown = true;
+      targetSphereOpen = 1.0;
       const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
       const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
       lastX = clientX;
@@ -551,12 +541,13 @@ export default function InfiniteMenu({
       const dx = clientX - lastX;
       const dy = clientY - lastY;
 
-      velocityX = dx * 0.005;
-      velocityY = dy * 0.005;
+      // Multi-directional dragging in any direction (left, right, up, down, diagonal)
+      velocityX = dx * 0.0035;
+      velocityY = dy * 0.0035;
 
       const deltaQuat = quat.create();
       const axis = vec3.fromValues(dy, dx, 0);
-      const angle = vec3.length(axis) * 0.005;
+      const angle = vec3.length(axis) * 0.0038;
 
       if (angle > 0.0001) {
         vec3.normalize(axis, axis);
@@ -570,7 +561,24 @@ export default function InfiniteMenu({
     };
 
     const onPointerUp = () => {
+      if (!isDown) return;
       isDown = false;
+
+      // Identify nearest item to camera (+Z) on release
+      let maxZ = -Infinity;
+      let closestIdx = 0;
+
+      for (let i = 0; i < itemCount; i++) {
+        const tNorm = vec3.create();
+        vec3.transformQuat(tNorm, instanceNormals[i], currentQuat);
+        if (tNorm[2] > maxZ) {
+          maxZ = tNorm[2];
+          closestIdx = i;
+        }
+      }
+
+      quat.rotationTo(targetSnapQuat, instanceNormals[closestIdx], vec3.fromValues(0, 0, 1));
+      handleActiveIndexChange(closestIdx);
     };
 
     canvas.addEventListener("mousedown", onPointerDown);
@@ -593,7 +601,7 @@ export default function InfiniteMenu({
         gl.viewport(0, 0, canvas.width, canvas.height);
 
         const aspect = width / height;
-        mat4.perspective(projectionMatrix, (38 * Math.PI) / 180, aspect, 0.1, 100);
+        mat4.perspective(projectionMatrix, (42 * Math.PI) / 180, aspect, 0.1, 100);
       }
     };
 
@@ -610,14 +618,17 @@ export default function InfiniteMenu({
       lastTime = time;
 
       if (!isDown) {
-        // Inertia
+        // Natural inertia decay
         velocityX *= 0.94;
         velocityY *= 0.94;
 
         const speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
         angularSpeed = speed;
 
-        if (speed > 0.00005) {
+        if (speed > 0.0004) {
+          targetSphereOpen = 1.0;
+
+          // In motion: apply angular velocity
           const axis = vec3.fromValues(velocityY, velocityX, 0);
           vec3.normalize(axis, axis);
           vec3.copy(rotationAxis, axis);
@@ -625,30 +636,50 @@ export default function InfiniteMenu({
           const deltaQuat = quat.create();
           quat.setAxisAngle(deltaQuat, axis, speed * dt * 60);
           quat.multiply(currentQuat, deltaQuat, currentQuat);
+
+          // Update active item continuously during spin
+          let maxZ = -Infinity;
+          let closestIdx = 0;
+          for (let i = 0; i < itemCount; i++) {
+            const tNorm = vec3.create();
+            vec3.transformQuat(tNorm, instanceNormals[i], currentQuat);
+            if (tNorm[2] > maxZ) {
+              maxZ = tNorm[2];
+              closestIdx = i;
+            }
+          }
+          quat.rotationTo(targetSnapQuat, instanceNormals[closestIdx], vec3.fromValues(0, 0, 1));
+          handleActiveIndexChange(closestIdx);
+        } else {
+          // Settling phase: smoothly slerp towards target focal alignment
+          quat.slerp(currentQuat, currentQuat, targetSnapQuat, 0.08);
+
+          // Once settled, transition sphereOpenProgress back to State A (0.0: One medium circular image)
+          targetSphereOpen = 0.0;
         }
       } else {
         angularSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+        targetSphereOpen = 1.0;
+
+        // Update active item while dragging
+        let maxZ = -Infinity;
+        let closestIdx = 0;
+        for (let i = 0; i < itemCount; i++) {
+          const tNorm = vec3.create();
+          vec3.transformQuat(tNorm, instanceNormals[i], currentQuat);
+          if (tNorm[2] > maxZ) {
+            maxZ = tNorm[2];
+            closestIdx = i;
+          }
+        }
+        handleActiveIndexChange(closestIdx);
       }
+
+      // Smoothly interpolate sphereOpenProgress between 0.0 (resting) and 1.0 (dragging/momentum)
+      sphereOpenProgress += (targetSphereOpen - sphereOpenProgress) * 0.08;
 
       quat.normalize(currentQuat, currentQuat);
       mat4.fromQuat(worldMatrix, currentQuat);
-
-      // Active Item Calculation: Find disc normal closest to view direction (0, 0, 1)
-      let maxZ = -Infinity;
-      let closestIndex = 0;
-
-      for (let i = 0; i < instanceCount; i++) {
-        const norm = instanceNormals[i];
-        const transformedNormal = vec3.create();
-        vec3.transformMat4(transformedNormal, norm, worldMatrix);
-
-        if (transformedNormal[2] > maxZ) {
-          maxZ = transformedNormal[2];
-          closestIndex = i % itemCount;
-        }
-      }
-
-      handleActiveIndexChange(closestIndex);
 
       // Clear Canvas
       gl.clearColor(0, 0, 0, 0);
@@ -660,11 +691,12 @@ export default function InfiniteMenu({
       gl.uniformMatrix4fv(uViewMatrixLoc, false, viewMatrix);
       gl.uniformMatrix4fv(uProjectionMatrixLoc, false, projectionMatrix);
       gl.uniform4f(uRotationAxisVelocityLoc, rotationAxis[0], rotationAxis[1], rotationAxis[2], angularSpeed);
+      gl.uniform1f(uSphereOpenProgressLoc, sphereOpenProgress);
       gl.uniform1i(uItemCountLoc, itemCount);
       gl.uniform1i(uAtlasSizeLoc, atlasSize);
 
       gl.bindVertexArray(vao);
-      gl.drawElementsInstanced(gl.TRIANGLES, discGeometry.faces.length * 3, gl.UNSIGNED_SHORT, 0, instanceCount);
+      gl.drawElementsInstanced(gl.TRIANGLES, discGeometry.indices.length, gl.UNSIGNED_SHORT, 0, itemCount);
 
       animId = requestAnimationFrame(render);
     };
@@ -686,7 +718,7 @@ export default function InfiniteMenu({
       gl.deleteBuffer(positionBuffer);
       gl.deleteBuffer(uvBuffer);
       gl.deleteBuffer(indexBuffer);
-      gl.deleteBuffer(instanceMatrixBuffer);
+      gl.deleteBuffer(instancePosBuffer);
       gl.deleteTexture(texture);
       gl.deleteProgram(program);
       gl.deleteShader(vertexShader);
@@ -697,13 +729,25 @@ export default function InfiniteMenu({
 
   const activeItem = items[activeItemIndex] || items[0];
 
+  const handleNext = () => {
+    if (navigateToItemRef.current) {
+      navigateToItemRef.current(activeItemIndex + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (navigateToItemRef.current) {
+      navigateToItemRef.current(activeItemIndex - 1);
+    }
+  };
+
   return (
     <section
       id="archive"
       className="relative w-full bg-(--bg-color) text-black py-12 lg:py-16 flex flex-col items-center justify-start border-t border-black/10 overflow-hidden"
     >
       {/* Section Header */}
-      <header className="w-full px-6 lg:px-12 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 pb-6">
+      <header className="w-full px-6 lg:px-12 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 pb-4">
         <div>
           <p className="text-black/50 text-xs lg:text-sm splineLight uppercase tracking-widest flex items-center gap-2">
             <span>03 / 05</span>
@@ -715,16 +759,30 @@ export default function InfiniteMenu({
           </h2>
         </div>
 
-        <p className="splineLight text-xs lg:text-sm uppercase tracking-wider text-black/50 hidden sm:block text-right">
-          Interactive Sphere · Drag to explore
-        </p>
+        {/* Navigation Step Controls */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handlePrev}
+            aria-label="Previous archive item"
+            className="w-10 h-10 border border-black/20 rounded-full flex items-center justify-center hover:bg-black hover:text-white transition-colors duration-200 cursor-pointer"
+          >
+            <ArrowLeft size={16} strokeWidth={1.5} />
+          </button>
+          <button
+            onClick={handleNext}
+            aria-label="Next archive item"
+            className="w-10 h-10 border border-black/20 rounded-full flex items-center justify-center hover:bg-black hover:text-white transition-colors duration-200 cursor-pointer"
+          >
+            <ArrowRight size={16} strokeWidth={1.5} />
+          </button>
+        </div>
       </header>
 
-      {/* InfiniteMenu WebGL Container */}
+      {/* InfiniteMenu WebGL Interactive Container */}
       <div
         ref={containerRef}
         data-lenis-prevent="true"
-        className="infinite-menu-container h-[480px] sm:h-[540px] lg:h-[600px] max-h-[650px]"
+        className="infinite-menu-container h-[480px] sm:h-[540px] lg:h-[600px] max-h-[660px]"
         style={{ backgroundColor }}
       >
         <canvas ref={canvasRef} className="infinite-menu-canvas" />
@@ -733,7 +791,10 @@ export default function InfiniteMenu({
         {activeItem && (
           <div className="infinite-menu-info">
             <div className="infinite-menu-text">
-              <h3 className="infinite-menu-title">{activeItem.title}</h3>
+              <span className="splineLight text-[0.7rem] sm:text-xs text-black/50 uppercase tracking-widest">
+                {String(activeItemIndex + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")} · Selected Record
+              </span>
+              <h3 className="infinite-menu-title mt-1">{activeItem.title}</h3>
               <p className="infinite-menu-description">{activeItem.description}</p>
             </div>
 
@@ -743,7 +804,7 @@ export default function InfiniteMenu({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="infinite-menu-action"
-                aria-label={`View ${activeItem.title}`}
+                aria-label={`View record for ${activeItem.title}`}
               >
                 <ArrowUpRight size={20} strokeWidth={1.5} />
               </a>

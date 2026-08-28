@@ -11,6 +11,7 @@ interface ProjectInterface {
   video?: string;
   title: string;
   link: string;
+  demo?: string;
   tags: string[];
   summary?: string;
   year?: string;
@@ -21,6 +22,7 @@ export default function Project({
   src,
   title,
   link,
+  demo,
   tags,
   summary,
   year,
@@ -55,15 +57,29 @@ export default function Project({
             ) : null}
           </h2>
 
-          <div className="w-28 shrink-0">
-            <CustomLinkArrow
-              className="text-xs lg:text-sm text-black max-w-28"
-              name="Visit Live"
-              url={link}
-              arrFrom="bottom right"
-              arrTo="center center"
-              arrSize={16}
-            />
+          <div className="flex items-center gap-4 shrink-0">
+            {demo ? (
+              <div className="w-24 sm:w-28 shrink-0">
+                <CustomLinkArrow
+                  className="text-xs lg:text-sm text-black"
+                  name="Live Demo"
+                  url={demo}
+                  arrFrom="bottom right"
+                  arrTo="center center"
+                  arrSize={15}
+                />
+              </div>
+            ) : null}
+            <div className="w-20 sm:w-24 shrink-0">
+              <CustomLinkArrow
+                className="text-xs lg:text-sm text-black"
+                name="GitHub"
+                url={link}
+                arrFrom="bottom right"
+                arrTo="center center"
+                arrSize={15}
+              />
+            </div>
           </div>
         </div>
 

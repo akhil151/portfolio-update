@@ -21,6 +21,7 @@ export default function Works() {
               summary={p.summary}
               video={p.video}
               link={p.link}
+              demo={p.demo}
               tags={p.tags}
             />
           ))}
@@ -37,6 +38,7 @@ export default function Works() {
               summary={p.summary}
               video={p.video}
               link={p.link}
+              demo={p.demo}
               tags={p.tags}
             />
           ))}
