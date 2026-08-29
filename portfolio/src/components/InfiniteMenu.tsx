@@ -787,6 +787,11 @@ export default function InfiniteMenu({
       >
         <canvas ref={canvasRef} className="infinite-menu-canvas" />
 
+        {/* Drag Affordance Hint */}
+        <div className="infinite-menu-drag-hint" aria-hidden="true">
+          DRAG ME ↔
+        </div>
+
         {/* Active Item Overlay HUD */}
         {activeItem && (
           <div className="infinite-menu-info">

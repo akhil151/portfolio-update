@@ -28,6 +28,37 @@
   }
 }
 
+.infinite-menu-drag-hint {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-spline-light), monospace;
+  font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(16, 16, 16, 0.45);
+  pointer-events: none;
+  user-select: none;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .infinite-menu-drag-hint {
+    top: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .infinite-menu-drag-hint {
+    top: 1.5rem;
+  }
+}
+
 .infinite-menu-info {
   position: absolute;
   bottom: 0.75rem;
