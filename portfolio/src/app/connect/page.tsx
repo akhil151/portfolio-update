@@ -8,7 +8,6 @@ import Footer from "@/components/Footer";
 
 export default function Connect() {
   const formRef = useRef<HTMLFormElement>(null);
-  const [selectedBudget, setSelectedBudget] = useState("500 - 1k");
   const [status, setStatus] = useState<"idle" | "sending" | "success">("idle");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -91,32 +90,6 @@ export default function Connect() {
             placeholder="How can I help you"
             className="splineLight mt-8 text-sm lg:text-base focus:outline-none tracking-tight placeholder:text-black/60 placeholder:text-xs lg:placeholder:text-sm placeholder:uppercase w-full resize-none bg-transparent border-b border-black/30 focus:border-black transition-colors"
           />
-
-          <p className="text-xs mt-8 w-full text-black/70 splineLight tracking-wider uppercase">
-            Project Budget (USD)
-          </p>
-          <div className="w-full mt-4 flex flex-row flex-wrap gap-6">
-            {["500 - 1k", "5k - 10k", "MORE"].map((option) => (
-              <label
-                key={option}
-                className={`splineRegular text-sm lg:text-base uppercase tracking-tight cursor-pointer pb-1 transition-all ${
-                  selectedBudget === option
-                    ? "font-bold border-b-2 border-black"
-                    : "opacity-40 hover:opacity-70"
-                }`}
-              >
-                <span>{option}</span>
-                <input
-                  type="radio"
-                  name="budget"
-                  value={option}
-                  checked={selectedBudget === option}
-                  onChange={() => setSelectedBudget(option)}
-                  className="hidden"
-                />
-              </label>
-            ))}
-          </div>
 
           <button
             type="submit"

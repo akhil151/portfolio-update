@@ -20,7 +20,6 @@ export async function sendEmail(formData: FormData) {
     phone: formData.get("phone"),
     email: formData.get("email"),
     message: formData.get("textarea") || "No message provided",
-    budget: formData.get("budget"),
   };
 
 const htmlContent = `
@@ -33,20 +32,16 @@ const htmlContent = `
 
     <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 40px;">
       <tr>
-        <td width="100%" colspan="2" valign="top" style="padding-bottom: 40px;">
+        <td width="100%" valign="top" style="padding-bottom: 40px;">
           <p style="font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #999999; margin: 0 0 10px 0;">Client</p>
           <p style="font-size: 42px; font-weight: 500; letter-spacing: -0.04em; margin: 0; line-height: 1;">${data.name}</p>
         </td>
       </tr>
       <tr>
-        <td width="50%" valign="top" style="border-top: 1px solid #e5e5e5; padding-top: 20px; padding-right: 20px;">
+        <td width="100%" valign="top" style="border-top: 1px solid #e5e5e5; padding-top: 20px;">
           <p style="font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #999999; margin: 0 0 10px 0;">Contact</p>
           <p style="font-size: 14px; margin: 0 0 4px 0; font-weight: 500; color: #000000;">${data.email}</p>
           <p style="font-size: 14px; color: #666666; margin: 0;">${data.phone}</p>
-        </td>
-        <td width="50%" valign="top" style="border-top: 1px solid #e5e5e5; border-left: 1px solid #e5e5e5; padding-top: 20px; padding-left: 20px;">
-          <p style="font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #999999; margin: 0 0 10px 0;">Budget Estimate</p>
-          <p style="font-size: 14px; margin: 0; font-weight: 500; color: #000000;">$${data.budget}</p>
         </td>
       </tr>
     </table>
@@ -70,7 +65,7 @@ const htmlContent = `
       from: `"Portfolio" <${process.env.EMAIL_USER}>`,
       to: site.email,
       replyTo: data.email as string,
-      subject: `Brief: ${data.name} — ${data.budget}`,
+      subject: `Brief: ${data.name}`,
       html: htmlContent,
     });
     return { success: true };
