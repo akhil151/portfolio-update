@@ -161,8 +161,8 @@ export default function About() {
           <figure className="h-64 sm:h-80 lg:h-96 w-full lg:w-1/2 flex items-center justify-center relative">
             <div className="relative h-full w-full max-w-md">
               <Image
-                src="/about/lifestyle.svg"
-                alt="Systems blueprint illustration"
+                src="/about/hardware_working.jpeg"
+                alt="Hardware engineering and systems development"
                 fill
                 className="object-contain object-center"
                 sizes="(max-width: 1024px) 80vw, 40vw"

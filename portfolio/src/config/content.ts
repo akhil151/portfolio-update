@@ -58,31 +58,31 @@ export const services: ServiceField[] = [
   {
     title: "AI & Machine Learning",
     tags: ["Deep Learning", "NLP", "LLM Agents", "RAG", "Prompt Engineering"],
-    img: "/services/ai.svg",
+    img: "/services/ai.jpeg",
     info: "Training and shipping applied ML — from CNNs and transformers to production inference with TensorFlow, PyTorch, and Scikit-Learn.",
   },
   {
     title: "Computer Vision",
     tags: ["OpenCV", "YOLOv8", "Object Detection", "Image Processing"],
-    img: "/services/cv.svg",
+    img: "/services/cv.jpeg",
     info: "Building detection and perception systems that run on-device — edge deployment for time-critical, low-latency alerts.",
   },
   {
     title: "Agentic AI & RAG",
     tags: ["Multi-agent Orchestration", "Gemini / Groq", "ChromaDB", "Evidence Fusion"],
-    img: "/services/agents.svg",
+    img: "/services/agents.jpeg",
     info: "Designing autonomous agents and retrieval pipelines that stay grounded in real data instead of raw model output.",
   },
   {
     title: "Full-Stack Development",
     tags: ["ReactJS", "React Native", "Node.js", "FastAPI", "REST APIs", "MERN"],
-    img: "/services/fullstack.svg",
+    img: "/services/fullstack.jpeg",
     info: "End-to-end products — typed front-ends, resilient APIs, and databases wired together for real users.",
   },
   {
     title: "Cyber-Physical & Systems",
     tags: ["Digital Twins", "Network Security", "Edge Deployment", "Incident Response"],
-    img: "/services/cps.svg",
+    img: "/services/cps.png",
     info: "Monitoring and protecting connected robots and industrial systems with explainable, human-in-the-loop workflows.",
   },
 ];
