@@ -19,9 +19,9 @@ if (typeof window !== "undefined") {
 }
 
 export default function About() {
-  const containerRef = useRef(null);
-  const infoRef = useRef(null);
-  const fallingTextRef = useRef(null);
+  const containerRef = useRef<HTMLElement | null>(null);
+  const infoRef = useRef<HTMLDivElement | null>(null);
+  const fallingTextRef = useRef<HTMLDivElement | null>(null);
   const { isMobile, isDesktop } = useDevice();
 
   useGSAP(
@@ -37,7 +37,27 @@ export default function About() {
         },
       });
 
-      tl.to({}, { duration: 0.5 });
+      const chars = containerRef.current?.querySelectorAll(".char-span");
+
+      if (chars && chars.length > 0) {
+        tl.to(
+          chars,
+          {
+            y: (i: number) => 100 + ((i * 17) % 80),
+            x: (i: number) => Math.sin(i * 1.9) * 10,
+            rotation: (i: number) => Math.cos(i * 1.5) * 12,
+            ease: "power1.in",
+            stagger: {
+              amount: 0.25,
+              from: "random",
+            },
+            duration: 0.6,
+          },
+          0
+        );
+      } else {
+        tl.to({}, { duration: 0.5 });
+      }
 
       tl.fromTo(
         infoRef.current,
@@ -46,7 +66,8 @@ export default function About() {
           yPercent: 0,
           ease: "cubic-bezier(0.11, 0.82, 0.39, 0.92)",
           duration: 1,
-        }
+        },
+        0.3
       );
     },
     { scope: containerRef }
