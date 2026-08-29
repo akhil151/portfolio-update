@@ -72,18 +72,17 @@ export default function Navbar() {
 
                 <div className="w-full h-full m flex flex-col items-center px-6 overflow-y-auto no-scrollbar">
 
-                    <section className="w-full mt-30 h-auto flex flex-col items-center justify-between gap-1"></section>
-
-                    <section className="w-full mt-10 mb-15 h-auto py-5 text-white! flex-wrap items-center justify-center gap-6">
+                    <section className="w-full mt-10 mb-15 h-auto py-5 text-white! flex flex-col items-start justify-center gap-6">
                         {navItems.map((item) => (
-                            <CustomLinkArrow
-                                key={item.name}
-                                arrFrom="top right"
-                                arrTo="center center"
-                                className="mix-blend-difference! w-28 text-[1.4rem]!"
-                                name={item.name}
-                                url={item.url}
-                            />
+                            <div key={item.name} onClick={() => setIsMenuOpen(false)}>
+                                <CustomLinkArrow
+                                    arrFrom="top right"
+                                    arrTo="center center"
+                                    className="mix-blend-difference! w-32 text-[1.4rem]!"
+                                    name={item.name}
+                                    url={item.url}
+                                />
+                            </div>
                         ))}
                     </section>
 

@@ -28,7 +28,7 @@ export default function Hero() {
           />
         </h1>
 
-        <p className="text-black/80 h-fit w-full text-center lg:text-right text-xs lg:text-sm tracking-[6px] lg:tracking-[18px] mt-3 lg:mt-1 uppercase splineLight">
+        <p className="text-black/80 h-fit w-full text-center lg:text-right text-xs lg:text-sm tracking-[3px] sm:tracking-[6px] lg:tracking-[18px] mt-3 lg:mt-1 uppercase splineLight">
           {site.location}
         </p>
       </div>

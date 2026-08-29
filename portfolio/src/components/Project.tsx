@@ -68,10 +68,10 @@ export default function Project({
       {/* Project Details */}
       <div className="w-full pt-4 pb-2 flex flex-col gap-3">
         <div className="w-full flex flex-row items-baseline justify-between gap-4 py-1">
-          <h2 className="text-2xl sm:text-3xl sofiaBold uppercase tracking-tight text-black flex items-baseline">
+          <h2 className="text-2xl sm:text-3xl sofiaBold uppercase tracking-tight text-black flex items-baseline flex-wrap gap-x-2">
             <span>{title}</span>
             {year ? (
-              <span className="text-sm splineLight ml-3 text-[#6c6c6c]">
+              <span className="text-sm splineLight text-[#6c6c6c]">
                 {year}
               </span>
             ) : null}
@@ -94,7 +94,7 @@ export default function Project({
         </ul>
 
         {/* Project Action */}
-        <div className="w-full flex items-center pt-2">
+        <div className="w-full flex items-center pt-2 min-h-[44px]">
           <CustomLinkBracket
             name="GITHUB ↗"
             url={link}

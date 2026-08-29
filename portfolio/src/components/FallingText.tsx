@@ -23,7 +23,6 @@ const FallingText: React.FC<FallingTextProps> = ({
   className = '',
 }) => {
   const lines = useMemo(() => text.split(/<br\s*\/?>/i), [text]);
-  const parsedFontSize = useMemo(() => parseFloat(fontSize) || 16, [fontSize]);
 
   return (
     <div
@@ -43,7 +42,7 @@ const FallingText: React.FC<FallingTextProps> = ({
             <div
               key={lineIndex}
               className="line-wrapper block"
-              style={{ marginBottom: `${-3 * parsedFontSize}px` }}
+              style={{ marginBottom: '-0.2em' }}
             >
               {words.map((word, wordIndex) => {
                 const isHighlighted = highlightWords.some((phrase) =>

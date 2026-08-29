@@ -88,7 +88,7 @@ export default function Services() {
                   <motion.h3
                     animate={{ y: isHovered ? 0 : "100%" }}
                     transition={{ duration: 0.6, ease: customEase }}
-                    className="font-bold text-black uppercase tracking-[-1px] lg:tracking-[-2px] text-[1.3rem] lg:text-[2.2rem] sofiaBold"
+                    className="font-bold text-black uppercase tracking-[-1px] lg:tracking-[-2px] text-[1.1rem] sm:text-[1.3rem] lg:text-[2.2rem] sofiaBold"
                   >
                     &nbsp;&nbsp;{field.title}
                   </motion.h3>

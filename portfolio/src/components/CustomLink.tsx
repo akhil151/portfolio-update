@@ -215,13 +215,13 @@ export const LogoLinkWithBadge = ({
         ["--from-rotate" as string]: `${fromRotation}deg`,
         ["--to-rotate" as string]: `${toRotation}deg`,
       }}
-      className={`group relative tracking-tighter! mix-blend-normal! flex items-center uppercase transition-all duration-300 splineRegular text-2xl!  w-full pb-1 pt-8 ${className}`}
+      className={`group relative tracking-tighter! mix-blend-normal! flex items-center uppercase transition-all duration-300 splineRegular text-lg lg:text-2xl w-full pb-1 pt-6 lg:pt-8 ${className}`}
     >
       <span className="flex items-center justify-between w-full gap-2">
-        <div className="flex items-center justify-start"> {/* Changed items-start to items-center */}
+        <div className="flex items-center justify-start flex-wrap sm:flex-nowrap gap-y-1">
           {imgSrc && (
             <Image
-              className="mr-3 h-7 mb-1.5 w-auto block z-10"
+              className="mr-3 h-6 sm:h-7 mb-1.5 w-auto block z-10 shrink-0"
               src={imgSrc}
               alt=""
               width={28}
@@ -240,7 +240,7 @@ export const LogoLinkWithBadge = ({
         <ArrowRight
           size={arrSize}
           strokeWidth={arrStroke}
-          className="transition-transform duration-500 ease-[cubic-bezier(0.11, 0.82, 0.39, 0.92)] origin-center"
+          className="transition-transform duration-500 ease-[cubic-bezier(0.11, 0.82, 0.39, 0.92)] origin-center shrink-0"
           style={{
             transform: `rotate(var(--from-rotate))`,
           }}

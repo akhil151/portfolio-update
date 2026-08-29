@@ -102,7 +102,7 @@ export default function About() {
             backgroundColor="transparent"
             wireframes={false}
             gravity={0.6}
-            fontSize={isMobile ? "3.2rem" : "8.5rem"}
+            fontSize={isMobile ? "min(3.2rem, 9.5vw)" : "8.5rem"}
             reset={true}
             className="tracking-[-2px] lg:tracking-[-10px] pb-5 leading-[0.8]! lg:ml-[8%] uppercase flex items-start lg:items-center justify-center gap-0 text-left!"
           />
