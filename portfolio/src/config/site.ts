@@ -20,11 +20,13 @@ export const socials = {
   // Profile URLs not confirmed — left empty so UI can omit the link rather than invent one.
   leetcode: "",
   skillrack: "",
+  codechef: "",
 } as const;
 
 export const codingStats = [
   { label: "LeetCode", value: "170+", detail: "Problems Solved" },
   { label: "SkillRack", value: "1200+", detail: "Problems Solved" },
+  { label: "CodeChef", value: "85+", detail: "Problems Solved" },
 ] as const;
 
 export const navItems = [

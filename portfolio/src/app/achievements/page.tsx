@@ -102,7 +102,7 @@ export default function Achievements() {
         </ul>
 
         {/* Coding Stats */}
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {codingStats.map((s) => (
             <div key={s.label} className="border border-black/10 rounded-none p-6 bg-white/40">
               <p className="text-[2.5rem] lg:text-[3.5rem] sofiaBold uppercase leading-none tracking-tighter text-black">

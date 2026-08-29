@@ -130,6 +130,7 @@ export const certifications = [
   { name: "Fundamentals of Deep Learning", issuer: "NVIDIA", year: "2026" },
   { name: "Data Analytics Virtual Job Simulation", issuer: "Deloitte (Forage)", year: "2026" },
   { name: "Design Thinking", issuer: "NPTEL", year: "2026" },
+  { name: "Cloud Computing with AI", issuer: "Unstop", year: "2026" },
   { name: "Introduction to Machine Learning", issuer: "NPTEL", year: "2025" },
   { name: "Introduction to Python", issuer: "Udemy", year: "2025" },
   { name: "DSA Basics in C++", issuer: "Udemy", year: "2025" },
