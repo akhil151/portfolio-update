@@ -118,7 +118,7 @@ void main() {
     vec3 normCenter = normalize(centerPos);
 
     // Front-facing indicator: 1.0 when facing directly at camera (+Z)
-    float facingFront = smoothstep(0.85, 0.995, normCenter.z);
+    float facingFront = smoothstep(0.65, 0.95, normCenter.z);
 
     // Scale dynamics:
     // When resting (uSphereOpenProgress = 0.0): center item is 1.38x (medium focal circle), others scale to 0.0
@@ -428,10 +428,15 @@ export default function InfiniteMenu({
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     };
 
+    // Ensure texture buffer is initialized from frame 0
+    updateTexture();
+
     let loadedImages = 0;
     items.forEach((item, index) => {
       const img = new Image();
-      img.crossOrigin = "anonymous";
+      if (item.image.startsWith("http://") || item.image.startsWith("https://")) {
+        img.crossOrigin = "anonymous";
+      }
       img.src = item.image;
       img.onload = () => {
         if (!ctx) return;
