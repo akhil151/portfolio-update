@@ -62,6 +62,46 @@ const RippleChar = ({
   );
 };
 
+interface CharInfo {
+  char: string;
+  index: number;
+}
+
+interface Token {
+  type: "word" | "space";
+  chars: CharInfo[];
+}
+
+function tokenizeText(text: string): { tokens: Token[]; totalChars: number } {
+  // Normalize &nbsp; entities to non-breaking spaces
+  const normalized = text.replace(/&nbsp;/g, "\u00A0");
+  const rawChars = normalized.split("");
+  const totalChars = rawChars.length;
+  const tokens: Token[] = [];
+  let currentWord: CharInfo[] = [];
+
+  for (let i = 0; i < rawChars.length; i++) {
+    const char = rawChars[i];
+    const isSpace = char === " " || char === "\u00A0" || char === "\t" || char === "\n";
+
+    if (isSpace) {
+      if (currentWord.length > 0) {
+        tokens.push({ type: "word", chars: currentWord });
+        currentWord = [];
+      }
+      tokens.push({ type: "space", chars: [{ char, index: i }] });
+    } else {
+      currentWord.push({ char, index: i });
+    }
+  }
+
+  if (currentWord.length > 0) {
+    tokens.push({ type: "word", chars: currentWord });
+  }
+
+  return { tokens, totalChars };
+}
+
 const TextRipple = ({
   text,
   className = "",
@@ -90,8 +130,8 @@ const TextRipple = ({
     offset: scrollOffset,
   });
 
-  const characters = text.split("");
-  const centerIndex = (characters.length - 1) / 2;
+  const { tokens, totalChars } = tokenizeText(text);
+  const centerIndex = (totalChars - 1) / 2;
   
   // startY is 200 for bottom-up (reverse), -200 for top-down (original)
   const startY = reverse ? 200 : -200;
@@ -117,20 +157,46 @@ const TextRipple = ({
       ref={containerRef} 
       className={`relative overflow-hidden flex flex-wrap justify-center items-center px-2 ${className}`}
     >
-      {characters.map((char, i) => (
-        <RippleChar
-          key={i}
-          char={char}
-          i={i}
-          centerIndex={centerIndex}
-          scrollYProgress={scrollYProgress}
-          scrub={scrub}
-          blur={blur}
-          charVariants={charVariants}
-          isInView={isInView}
-          startY={startY}
-        />
-      ))}
+      {tokens.map((token, tIdx) => {
+        if (token.type === "word") {
+          return (
+            <span key={`w-${tIdx}`} className="inline-flex whitespace-nowrap">
+              {token.chars.map(({ char, index }) => (
+                <RippleChar
+                  key={index}
+                  char={char}
+                  i={index}
+                  centerIndex={centerIndex}
+                  scrollYProgress={scrollYProgress}
+                  scrub={scrub}
+                  blur={blur}
+                  charVariants={charVariants}
+                  isInView={isInView}
+                  startY={startY}
+                />
+              ))}
+            </span>
+          );
+        }
+        return (
+          <span key={`s-${tIdx}`} className="inline-block whitespace-pre">
+            {token.chars.map(({ char, index }) => (
+              <RippleChar
+                key={index}
+                char={char}
+                i={index}
+                centerIndex={centerIndex}
+                scrollYProgress={scrollYProgress}
+                scrub={scrub}
+                blur={blur}
+                charVariants={charVariants}
+                isInView={isInView}
+                startY={startY}
+              />
+            ))}
+          </span>
+        );
+      })}
     </div>
   );
 };

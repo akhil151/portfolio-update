@@ -15,7 +15,7 @@ export default function Hero() {
   return (
     <section
       id="hero-section"
-      className="min-h-screen w-full flex flex-col items-center justify-between pt-24 lg:pt-32 pb-12 px-6 lg:px-12 relative overflow-hidden"
+      className="min-h-screen w-full flex flex-col items-center justify-between pt-28 sm:pt-32 lg:pt-32 pb-12 px-6 lg:px-12 relative overflow-hidden"
     >
       {/* Top Header & Location */}
       <div className="w-full flex flex-col items-center justify-start">

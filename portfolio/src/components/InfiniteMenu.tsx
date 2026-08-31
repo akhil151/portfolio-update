@@ -789,7 +789,9 @@ export default function InfiniteMenu({
 
         {/* Drag Affordance Hint */}
         <div className="infinite-menu-drag-hint" aria-hidden="true">
-          DRAG ME ↔
+          <span className="infinite-menu-drag-arrow-left">←</span>
+          <span>DRAG ME</span>
+          <span className="infinite-menu-drag-arrow-right">→</span>
         </div>
 
         {/* Active Item Overlay HUD */}

@@ -34,8 +34,8 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className="fixed top-0 left-0 z-999 flex w-full flex-row items-center justify-between mix-blend-difference! px-6 py-4 mt-2 lg:mt-4 lg:h-20 lg:px-12 lg:py-2 text-white">
-                <h1 className="sofiaBold text-[1.8rem] leading-[0.8] tracking-[-0.05em] uppercase text-left indent-2 lg:text-[2rem] lg:leading-[0.70] lg:indent-5">
+            <nav className="fixed top-0 left-0 right-0 z-999 flex w-full flex-row items-center justify-between mix-blend-difference! px-6 py-3.5 mt-0 lg:mt-4 lg:h-20 lg:px-12 lg:py-2 text-white">
+                <h1 className="sofiaBold text-[1.65rem] sm:text-[1.8rem] leading-[0.8] tracking-[-0.05em] uppercase text-left indent-0 lg:text-[2rem] lg:leading-[0.70] lg:indent-5">
                     Akhilesh <br /> M P
                 </h1>
 
@@ -58,7 +58,7 @@ export default function Navbar() {
 
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="flex flex-col justify-center items-end gap-1.5 w-8 h-8 lg:hidden focus:outline-none z-1000"
+                        className="flex flex-col justify-center items-end gap-1.5 w-8 h-8 lg:hidden focus:outline-none z-1000 cursor-pointer"
                         aria-label="Toggle Menu"
                     >
                         <span className={`h-px bg-white transition-all duration-500 ease-out ${isMenuOpen ? 'w-8 rotate-45 translate-y-1.75' : 'w-8'}`} />
@@ -68,7 +68,7 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            <div className={`fixed inset-0 z-998 bg-(--bg-color) flex flex-col items-center justify-start transition-all duration-700 ease-[cubic-bezier(0.85,0,0.15,1)] lg:hidden ${isMenuOpen ? 'clip-path-open' : 'clip-path-closed'}`}>
+            <div className={`fixed inset-0 z-998 bg-(--bg-color) flex flex-col items-center justify-start transition-all duration-700 ease-[cubic-bezier(0.85,0,0.15,1)] lg:hidden ${isMenuOpen ? 'clip-path-open pointer-events-auto' : 'clip-path-closed pointer-events-none'}`}>
 
                 <div className="w-full h-full m flex flex-col items-center px-6 overflow-y-auto no-scrollbar">
 

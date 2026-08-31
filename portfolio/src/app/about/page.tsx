@@ -111,19 +111,19 @@ export default function About() {
         {/* Sliding Overlay Info */}
         <div
           ref={infoRef}
-          className="absolute inset-0 h-full w-full bg-black z-10 flex flex-col items-start justify-between px-6 lg:px-12 py-12"
+          className="absolute inset-0 h-full w-full bg-black z-10 flex flex-col items-start justify-between px-6 lg:px-12 py-8 sm:py-12"
           style={{ willChange: "transform" }}
         >
-          <header className="w-full flex items-center justify-start pt-8">
-            <h3 className="tracking-tighter leading-none text-white text-[1.2rem] splineLight uppercase">
+          <header className="w-full flex items-center justify-start pt-4 sm:pt-8">
+            <h3 className="tracking-tighter leading-none text-white text-[1.1rem] sm:text-[1.2rem] splineLight uppercase">
               ABOUT ME
             </h3>
           </header>
 
-          <div className="w-full flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 py-4">
-            <figure className="w-full sm:w-72 lg:w-80 shrink-0 flex flex-col items-center gap-4">
+          <div className="w-full flex-1 flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-8 lg:gap-16 py-2 sm:py-4">
+            <figure className="w-full sm:w-72 lg:w-80 shrink-0 flex flex-col items-center gap-3 sm:gap-4">
               <ImageReveal
-                className="w-48 sm:w-60 lg:w-64 h-64 sm:h-80 lg:h-84"
+                className="w-40 sm:w-60 lg:w-64 h-52 sm:h-80 lg:h-84"
                 src="/assests/profile/profile.jpeg"
                 alt={`Portrait of ${site.name}`}
                 delay={0.3}
