@@ -787,7 +787,7 @@ export default function InfiniteMenu({
       <div
         ref={containerRef}
         data-lenis-prevent="true"
-        className="infinite-menu-container h-[480px] sm:h-[540px] lg:h-[600px] max-h-[660px]"
+        className="infinite-menu-container h-[500px] sm:h-[540px] lg:h-[600px] max-h-[660px]"
         style={{ backgroundColor }}
       >
         <canvas ref={canvasRef} className="infinite-menu-canvas" />

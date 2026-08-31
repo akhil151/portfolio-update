@@ -24,13 +24,13 @@
 
 @media (max-width: 639px) {
   .infinite-menu-canvas {
-    transform: translateY(-20px);
+    transform: translateY(-32px);
   }
 }
 
 .infinite-menu-drag-hint {
   position: absolute;
-  top: 1rem;
+  top: 0.75rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;

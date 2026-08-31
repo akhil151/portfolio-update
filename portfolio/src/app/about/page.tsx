@@ -162,8 +162,8 @@ export default function About() {
       </section>
 
       {/* Editorial Details Section (Natural Height) */}
-      <section className="h-auto w-full flex flex-col items-start justify-start px-6 lg:px-12 py-16 lg:py-24">
-        <hr className="w-full h-px bg-white/20 border-none mb-12" />
+      <section className="h-auto w-full flex flex-col items-start justify-start px-6 lg:px-12 py-8 sm:py-12 lg:py-24">
+        <hr className="w-full h-px bg-white/20 border-none mb-6 sm:mb-8 lg:mb-12" />
 
         <TextReveal delay={0.2} scrub staggerDuration={0.01}>
           <h2 className="text-white/80 text-[2.2rem] sm:text-[3rem] lg:text-[4rem] uppercase leading-[0.95] splineLight w-full lg:w-[90%]">
