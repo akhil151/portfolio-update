@@ -78,7 +78,7 @@ export default function About() {
       {/* Pinned Falling Text & Slide-in Intro */}
       <section
         ref={containerRef}
-        className="relative w-full h-screen overflow-hidden border-t border-white/10 bg-black"
+        className="relative w-full h-[580px] sm:h-[640px] lg:h-screen overflow-hidden border-t border-white/10 bg-black"
       >
         <div ref={fallingTextRef} className="absolute inset-0 h-full w-full">
           <div className="h-fit w-full px-6 lg:px-12 pb-2 pt-16 mt-6 lg:mt-0 lg:pt-24 mb-8">
